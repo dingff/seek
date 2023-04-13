@@ -1,0 +1,18 @@
+{
+  "devtools_page": "./devtools.html",
+  "background": {
+    "service_worker": "./background.js"
+  },
+  "description": "An enhanced network.",
+  "icons": {
+    "128": "./logo/logo.png",
+    "16": "./logo/logo.png",
+    "32": "./logo/logo.png",
+    "48": "./logo/logo.png"
+  },
+  "manifest_version": 3,
+  "name": "Seek",
+  "permissions": ["storage"],
+  "update_url": "https://clients2.google.com/service/update2/crx",
+  "version": "0.0.1"
+}

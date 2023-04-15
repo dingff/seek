@@ -8,6 +8,9 @@
   font-size: 13px;
   overflow: hidden;
   .topBar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
     background: @bg-gray;
     padding: 3px 10px;
     border-bottom: 1px solid @border-color;
@@ -16,7 +19,26 @@
         margin-inline-start: 0;
         margin-inline-end: 8px;
         color: @text-gray;
+        &:hover {
+          color: #333;
+        }
       }
+    }
+    .icon {
+      width: 14px;
+      height: 14px;
+      color: #6e6e6e;
+      margin-right: 10px;
+      &:hover {
+        color: #333;
+      }
+    }
+    .splitLine {
+      display: inline-block;
+      width: 1px;
+      height: 12px;
+      background: #ccc;
+      margin-right: 10px;
     }
   }
   .filter {

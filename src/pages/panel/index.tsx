@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Checkbox, Input, Segmented, Table, Tooltip } from 'antd'
-import styles from './index.less'
+import { StopOutlined } from '@ant-design/icons'
 import { IResourceType } from '@/types'
 import { KNOWN_TYPES, RESOURCE_TYPES, RESOURCE_TYPE_MAP } from '@/common/constants'
+import styles from './index.less'
 
 declare const chrome: any
 
@@ -10,6 +11,8 @@ export default function Panel() {
   const [queryList, setQueryList] = useState<any[]>([])
   const [filteredQueryList, setFilteredQueryList] = useState<any[]>([])
   const [currResourceType, setCurrResourceType] = useState<IResourceType>('All')
+  const shouldPreserveLogRef = useRef(false)
+
   const renderName = (v: string) => {
     const shortName = v?.split('/').pop()
     return (
@@ -55,6 +58,9 @@ export default function Panel() {
   const handleResourceTypeChange = (v: IResourceType) => {
     setCurrResourceType(v)
   }
+  const handlePreserveLogChange = (e: any) => {
+    shouldPreserveLogRef.current = e.target.checked
+  }
   useEffect(() => {
     const types = RESOURCE_TYPE_MAP[currResourceType]
     let next = []
@@ -84,9 +90,12 @@ export default function Panel() {
     })
     chrome.devtools.network.onNavigated.addListener((data: string) => {
       console.log('onNavigated', data)
+      if (!shouldPreserveLogRef.current) {
+        setQueryList([])
+      }
     })
 
-    // const test = Array(100).fill('').map((item) => {
+    // const test = Array(100).fill('').map(() => {
     //   return {
     //     name: '123',
     //   }
@@ -96,7 +105,9 @@ export default function Panel() {
   return (
     <div className={styles.container}>
       <div className={styles.topBar}>
-        <Checkbox>Preserve log</Checkbox>
+        <StopOutlined className={styles.icon} onClick={() => setQueryList([])} />
+        <span className={styles.splitLine}></span>
+        <Checkbox onChange={handlePreserveLogChange}>Preserve log</Checkbox>
       </div>
       <div className={styles.filter}>
         <Input size="small" className={styles.keywordSer} placeholder="Filter" />

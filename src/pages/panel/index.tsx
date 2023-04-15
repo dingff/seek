@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { Checkbox, Input, Segmented, Table, Tooltip } from 'antd'
+import { Checkbox, Input, Segmented, Table } from 'antd'
 import { StopOutlined } from '@ant-design/icons'
 import { IResourceType } from '@/types'
 import { KNOWN_TYPES, RESOURCE_TYPES, RESOURCE_TYPE_MAP } from '@/common/constants'
+import Ellipsis from '@/components/Ellipsis'
 import styles from './index.less'
 
 declare const chrome: any
@@ -14,11 +15,10 @@ export default function Panel() {
   const shouldPreserveLogRef = useRef(false)
 
   const renderName = (v: string) => {
-    const shortName = v?.split('/').pop()
+    const tokens = v.split('/')
+    const shortName = tokens.pop() || tokens.pop()
     return (
-      <Tooltip placement="topLeft" title={v}>
-        {shortName}
-      </Tooltip>
+      <Ellipsis title={v}>{shortName as string}</Ellipsis>
     )
   }
   const renderSize = (bytes: number) => {
@@ -42,18 +42,18 @@ export default function Panel() {
     const handles = {
       // eslint-disable-next-line react/no-unstable-nested-components
       0: () => {
-        return <span style={{ color: '#f5222d' }}>(blocked:other)</span>
+        return <Ellipsis className="errorColumn">(blocked:other)</Ellipsis>
       },
     }
     // @ts-ignore
     return handles[v] ? handles[v]() : v
   }
   const columns = [
-    { title: 'Name', dataIndex: ['request', 'url'], ellipsis: { showTitle: false }, render: renderName },
-    { title: 'Status', dataIndex: ['response', 'status'], width: 120, ellipsis: true, render: renderStatus },
+    { title: 'Name', dataIndex: ['request', 'url'], render: renderName },
+    { title: 'Status', dataIndex: ['response', 'status'], width: 80, render: renderStatus },
     { title: 'Type', dataIndex: '_resourceType', render: renderType, width: 80 },
     { title: 'Size', dataIndex: ['response', '_transferSize'], render: renderSize, width: 80 },
-    { title: 'Time', dataIndex: 'time', ellipsis: true, render: renderTime, width: 80 },
+    { title: 'Time', dataIndex: 'time', render: renderTime, width: 80 },
   ]
   const handleResourceTypeChange = (v: IResourceType) => {
     setCurrResourceType(v)
@@ -80,6 +80,10 @@ export default function Panel() {
         break
     }
     setFilteredQueryList(next)
+    const elements = document.getElementsByClassName('errorColumn')
+    Array.prototype.forEach.call(elements, (element) => {
+      element.parentNode.parentNode.style.color = '#f5222d'
+    })
   }, [currResourceType, queryList])
   useEffect(() => {
     chrome.devtools.network.onRequestFinished.addListener((data: any) => {

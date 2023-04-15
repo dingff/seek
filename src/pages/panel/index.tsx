@@ -14,7 +14,7 @@ export default function Panel() {
   const [currResourceType, setCurrResourceType] = useState<IResourceType>('All')
   const shouldPreserveLogRef = useRef(false)
 
-  const renderName = (v: string) => {
+  const renderName = (v: string = '') => {
     const tokens = v.split('/')
     const shortName = tokens.pop() || tokens.pop()
     return (

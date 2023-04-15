@@ -9,8 +9,8 @@ import styles from './index.less'
 declare const chrome: any
 
 export default function Panel() {
-  const [queryList, setQueryList] = useState<any[]>([])
-  const [filteredQueryList, setFilteredQueryList] = useState<any[]>([])
+  const [reqs, setReqs] = useState<any[]>([])
+  const [filteredReqs, setFilteredReqs] = useState<any[]>([])
   const [currResourceType, setCurrResourceType] = useState<IResourceType>('All')
   const shouldPreserveLogRef = useRef(false)
 
@@ -66,36 +66,36 @@ export default function Panel() {
     let next = []
     switch (currResourceType) {
       case 'All':
-        next = queryList
+        next = reqs
         break
       case 'Other':
-        next = queryList.filter((item) => {
+        next = reqs.filter((item) => {
           return !Object.values(KNOWN_TYPES).includes(item._resourceType)
         })
         break
       default:
-        next = queryList.filter((item) => {
+        next = reqs.filter((item) => {
           return types.includes(item._resourceType)
         })
         break
     }
-    setFilteredQueryList(next)
+    setFilteredReqs(next)
     const elements = document.getElementsByClassName('errorColumn')
     Array.prototype.forEach.call(elements, (element) => {
       element.parentNode.parentNode.style.color = '#f5222d'
     })
-  }, [currResourceType, queryList])
+  }, [currResourceType, reqs])
   useEffect(() => {
     chrome.devtools.network.onRequestFinished.addListener((data: any) => {
       console.log('onRequestFinished', data)
-      setQueryList((prev) => {
+      setReqs((prev) => {
         return [...prev, data]
       })
     })
     chrome.devtools.network.onNavigated.addListener((data: string) => {
       console.log('onNavigated', data)
       if (!shouldPreserveLogRef.current) {
-        setQueryList([])
+        setReqs([])
       }
     })
 
@@ -104,12 +104,12 @@ export default function Panel() {
     //     name: '123',
     //   }
     // })
-    // setQueryList(test)
+    // setReqs(test)
   }, [])
   return (
     <div className={styles.container}>
       <div className={styles.topBar}>
-        <StopOutlined className={styles.icon} onClick={() => setQueryList([])} />
+        <StopOutlined className={styles.icon} onClick={() => setReqs([])} />
         <span className={styles.splitLine}></span>
         <Checkbox onChange={handlePreserveLogChange}>Preserve log</Checkbox>
       </div>
@@ -128,7 +128,7 @@ export default function Panel() {
           sticky
           size="small"
           bordered
-          dataSource={filteredQueryList}
+          dataSource={filteredReqs}
           columns={columns}
           pagination={false}
         />

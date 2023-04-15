@@ -11,8 +11,13 @@ type IProps = {
 }
 
 export default function Ellipsis({ children, style, title, className }: IProps) {
-  return (
-    <Tooltip placement="topLeft" title={title || children}>
+  const realTitle = title || children
+  return realTitle.length > 150 ? (
+    <div title={realTitle} className={classNames('ellipsisCom', className)} style={style}>
+      {children}
+    </div>
+  ) : (
+    <Tooltip placement="topLeft" title={realTitle}>
       <div className={classNames('ellipsisCom', className)} style={style}>
         {children}
       </div>

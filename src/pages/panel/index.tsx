@@ -13,6 +13,7 @@ export default function Panel() {
   const [filteredReqs, setFilteredReqs] = useState<any[]>([])
   const [currResourceType, setCurrResourceType] = useState<IResourceType>('All')
   const shouldPreserveLogRef = useRef(false)
+  const [keyword, setKeyword] = useState('')
 
   const renderName = (v: string = '') => {
     const tokens = v.split('/')
@@ -42,7 +43,7 @@ export default function Panel() {
     const handles = {
       // eslint-disable-next-line react/no-unstable-nested-components
       0: () => {
-        return <Ellipsis className="errorColumn">(blocked:other)</Ellipsis>
+        return <Ellipsis style={{ color: '#f5222d' }}>(blocked:other)</Ellipsis>
       },
     }
     // @ts-ignore
@@ -60,6 +61,9 @@ export default function Panel() {
   }
   const handlePreserveLogChange = (e: any) => {
     shouldPreserveLogRef.current = e.target.checked
+  }
+  const handleKeywordChange = (e: any) => {
+    setKeyword(e.target.value)
   }
   useEffect(() => {
     const types = RESOURCE_TYPE_MAP[currResourceType]
@@ -79,12 +83,14 @@ export default function Panel() {
         })
         break
     }
+    if (keyword) {
+      next = next.filter((item) => {
+        const postParams = item.request.postData?.text || ''
+        return item.request.url.includes(keyword) || postParams.includes(keyword)
+      })
+    }
     setFilteredReqs(next)
-    const elements = document.getElementsByClassName('errorColumn')
-    Array.prototype.forEach.call(elements, (element) => {
-      element.parentNode.parentNode.style.color = '#f5222d'
-    })
-  }, [currResourceType, reqs])
+  }, [currResourceType, reqs, keyword])
   useEffect(() => {
     chrome.devtools.network.onRequestFinished.addListener((data: any) => {
       console.log('onRequestFinished', data)
@@ -114,7 +120,7 @@ export default function Panel() {
         <Checkbox onChange={handlePreserveLogChange}>Preserve log</Checkbox>
       </div>
       <div className={styles.filter}>
-        <Input size="small" className={styles.keywordSer} placeholder="Filter" />
+        <Input onChange={handleKeywordChange} size="small" className={styles.keywordSer} placeholder="Filter" />
         <Segmented
           onChange={(v) => handleResourceTypeChange(v as IResourceType)}
           size="small"

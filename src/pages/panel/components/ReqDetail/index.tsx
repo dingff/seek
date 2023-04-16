@@ -1,4 +1,5 @@
 import { CloseOutlined } from '@ant-design/icons'
+import { useEffect, useState } from 'react'
 import { Tabs } from 'antd'
 import type { TabsProps } from 'antd'
 import Payload from '../Payload'
@@ -30,6 +31,14 @@ export default function ReqDetail({ detail, onClose }: IProps) {
       ),
     },
   ]
+  const [filteredTabItems, setFilteredTabItems] = useState(tabItems)
+  useEffect(() => {
+    const hasPayload = detail.request.queryString?.[0] || detail.request.postData?.text
+    if (!hasPayload) {
+      tabItems.splice(1, 1)
+    }
+    setFilteredTabItems([...tabItems])
+  }, [detail])
   return (
     <div className={styles.reqDetail}>
       <Tabs
@@ -38,7 +47,7 @@ export default function ReqDetail({ detail, onClose }: IProps) {
           left: <CloseOutlined onClick={onClose} className={styles.icon} />,
         }}
         defaultActiveKey="1"
-        items={tabItems}
+        items={filteredTabItems}
       />
     </div>
   )

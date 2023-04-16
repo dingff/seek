@@ -1,0 +1,42 @@
+@text-gray: rgb(96, 99, 103);
+.payload {
+  .header {
+    display: flex;
+    align-items: center;
+    padding: 4px 6px;
+    .icon {
+      width: 10px;
+      height: 10px;
+      margin-right: 1px;
+    }
+    .title {
+      font-size: 13px;
+      font-weight: bold;
+    }
+    .btns {
+      span {
+        cursor: pointer;
+        margin-left: 22px;
+      }
+    }
+  }
+  .content {
+    padding-left: 27px;
+    word-break: break-all;
+    .treeView {
+      ol {
+        white-space: nowrap;
+      }
+    }
+    .list {
+      .listItem {
+        word-break: break-all;
+        b {
+          white-space: nowrap;
+          color: @text-gray;
+          padding-right: 6px;
+        }
+      }
+    }
+  }
+}

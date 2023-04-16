@@ -114,7 +114,10 @@ export default function Panel() {
   }, [currResourceType, reqs, keyword])
   useEffect(() => {
     chrome.devtools.network.onRequestFinished.addListener((data: any) => {
-      console.log('onRequestFinished', data)
+      console.log('onRequestFinished', data.request.url, data)
+      // data.getContent((v: string) => {
+      //   console.log(v)
+      // })
       setReqs((prev) => {
         return [...prev, data]
       })

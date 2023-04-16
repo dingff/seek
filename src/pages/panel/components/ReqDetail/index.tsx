@@ -1,7 +1,8 @@
-/* eslint-disable react/no-unstable-nested-components */
 import { CaretRightOutlined, CloseOutlined } from '@ant-design/icons'
 import { Collapse, Tabs } from 'antd'
+import type { TabsProps } from 'antd'
 import styles from './index.less'
+import Payload from '../Payload'
 
 const { Panel } = Collapse
 
@@ -13,7 +14,7 @@ export default function ReqDetail({ detail, onClose }: IProps) {
   const getValueByName = (dict: any[]) => (name: string) => {
     return dict.filter((item) => item.name === name)[0]?.value || ''
   }
-  const tabItems = [
+  const tabItems: TabsProps['items'] = [
     {
       label: 'Headers',
       key: '1',
@@ -72,8 +73,13 @@ export default function ReqDetail({ detail, onClose }: IProps) {
       ),
     },
     {
-      label: 'Preview',
+      label: 'Payload',
       key: '2',
+      children: <Payload detail={detail} />,
+    },
+    {
+      label: 'Preview',
+      key: '3',
       children: (
         <div>Preview</div>
       ),

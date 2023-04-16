@@ -113,6 +113,9 @@ export default function Panel() {
     setFilteredReqs(next)
   }, [currResourceType, reqs, keyword])
   useEffect(() => {
+    handleDetailClose()
+  }, [currResourceType, keyword])
+  useEffect(() => {
     chrome.devtools.network.onRequestFinished.addListener((data: any) => {
       console.log('onRequestFinished', data.request.url, data)
       // data.getContent((v: string) => {
@@ -127,18 +130,8 @@ export default function Panel() {
       if (!shouldPreserveLogRef.current) {
         setReqs([])
       }
-      setCurrRow(-1)
-      setDetail(null)
+      handleDetailClose()
     })
-
-    // const test = Array(100).fill('').map(() => {
-    //   return {
-    //     request: {
-    //       url: '123131',
-    //     },
-    //   }
-    // })
-    // setReqs(test)
   }, [])
   return (
     <div className={styles.container}>

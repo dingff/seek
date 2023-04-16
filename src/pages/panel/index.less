@@ -73,6 +73,7 @@
     overflow: auto;
     :global {
       .ant-table-container {
+        border-inline-start: 0 !important;
         .ant-table-header .ant-table-thead {
           position: relative;
           &::after {
@@ -97,6 +98,15 @@
               background: rgb(245, 245, 245);
             }
           }
+        }
+      }
+    }
+    .currRow {
+      :global {
+        .ant-table-cell {
+          color: #fff;
+          background: #1677ff !important;
+          border-inline-end: 0 !important;
         }
       }
     }

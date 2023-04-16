@@ -26,6 +26,7 @@ export default function Panel() {
   const shouldPreserveLogRef = useRef(false)
   const [keyword, setKeyword] = useState('')
   const [detail, setDetail] = useState(null)
+  const [currRow, setCurrRow] = useState(-1)
 
   function renderName(v: string = '') {
     const tokens = v.split('/')
@@ -61,10 +62,10 @@ export default function Panel() {
     // @ts-ignore
     return handles[v] ? handles[v]() : v
   }
-  function handleNameClick(r: any) {
+  function handleNameClick(r: any, rowIndex: number = -1) {
     return {
       onClick() {
-        console.log(r)
+        setCurrRow(rowIndex)
         setDetail(r)
         setFilteredColumns([filteredColumns[0]] as ColumnsType)
       },
@@ -83,6 +84,7 @@ export default function Panel() {
   const handleDetailClose = () => {
     setDetail(null)
     setFilteredColumns(columns)
+    setCurrRow(-1)
   }
   useEffect(() => {
     const types = RESOURCE_TYPE_MAP[currResourceType]
@@ -122,6 +124,8 @@ export default function Panel() {
       if (!shouldPreserveLogRef.current) {
         setReqs([])
       }
+      setCurrRow(-1)
+      setDetail(null)
     })
 
     // const test = Array(100).fill('').map(() => {
@@ -156,6 +160,7 @@ export default function Panel() {
             height: '100%',
             overflow: 'auto',
           }}
+          rowClassName={(r, i) => (currRow === i ? styles.currRow : '')}
           locale={{ emptyText: "There's nothing here" }}
           sticky
           bordered

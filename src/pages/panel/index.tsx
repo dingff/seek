@@ -80,6 +80,10 @@ export default function Panel() {
   const handleKeywordChange = (e: any) => {
     setKeyword(e.target.value)
   }
+  const handleDetailClose = () => {
+    setDetail(null)
+    setFilteredColumns(columns)
+  }
   useEffect(() => {
     const types = RESOURCE_TYPE_MAP[currResourceType]
     let next = []
@@ -159,7 +163,7 @@ export default function Panel() {
           columns={filteredColumns}
           pagination={false}
         />
-        {detail && <ReqDetail onClose={() => setDetail(null)} detail={detail} /> }
+        {detail && <ReqDetail onClose={handleDetailClose} detail={detail} /> }
       </div>
     </div>
   )

@@ -51,6 +51,7 @@ export default function Panel() {
   }
   const columns = [
     { title: 'Name', dataIndex: ['request', 'url'], render: renderName },
+    { title: 'Method', dataIndex: ['request', 'method'], width: 70 },
     { title: 'Status', dataIndex: ['response', 'status'], width: 80, render: renderStatus },
     { title: 'Type', dataIndex: '_resourceType', render: renderType, width: 80 },
     { title: 'Size', dataIndex: ['response', '_transferSize'], render: renderSize, width: 80 },

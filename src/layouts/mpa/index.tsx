@@ -4,6 +4,7 @@ import './index.less'
 export default function Layout(props: any) {
   return (
     <ConfigProvider
+      componentSize="small"
       theme={{
         token: {
           borderRadius: 2,

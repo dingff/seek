@@ -17,7 +17,7 @@ export default function Ellipsis({ children, style, title, className }: IProps) 
       {children}
     </div>
   ) : (
-    <Tooltip placement="topLeft" title={realTitle}>
+    <Tooltip mouseEnterDelay={1} placement="topLeft" title={realTitle}>
       <div className={classNames('ellipsisCom', className)} style={style}>
         {children}
       </div>

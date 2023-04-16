@@ -1,28 +1,40 @@
 import { useEffect, useRef, useState } from 'react'
 import { Checkbox, Input, Segmented, Table } from 'antd'
+import type { ColumnsType } from 'antd/es/table'
 import { StopOutlined } from '@ant-design/icons'
 import { IResourceType } from '@/types'
 import { KNOWN_TYPES, RESOURCE_TYPES, RESOURCE_TYPE_MAP } from '@/common/constants'
 import Ellipsis from '@/components/Ellipsis'
 import styles from './index.less'
+import ReqDetail from './components/ReqDetail'
 
 declare const chrome: any
 
 export default function Panel() {
+  const columns: ColumnsType<any> = [
+    { title: 'Name', dataIndex: ['request', 'url'], render: renderName, onCell: handleNameClick },
+    { title: 'Method', dataIndex: ['request', 'method'], width: 70 },
+    { title: 'Status', dataIndex: ['response', 'status'], width: 80, render: renderStatus },
+    { title: 'Type', dataIndex: '_resourceType', render: renderType, width: 80 },
+    { title: 'Size', dataIndex: ['response', '_transferSize'], render: renderSize, width: 80 },
+    { title: 'Time', dataIndex: 'time', render: renderTime, width: 80 },
+  ]
+  const [filteredColumns, setFilteredColumns] = useState(columns)
   const [reqs, setReqs] = useState<any[]>([])
   const [filteredReqs, setFilteredReqs] = useState<any[]>([])
   const [currResourceType, setCurrResourceType] = useState<IResourceType>('All')
   const shouldPreserveLogRef = useRef(false)
   const [keyword, setKeyword] = useState('')
+  const [detail, setDetail] = useState(null)
 
-  const renderName = (v: string = '') => {
+  function renderName(v: string = '') {
     const tokens = v.split('/')
     const shortName = tokens.pop() || tokens.pop()
     return (
       <Ellipsis title={v}>{shortName as string}</Ellipsis>
     )
   }
-  const renderSize = (bytes: number) => {
+  function renderSize(bytes: number) {
     if (bytes < 1024) {
       return `${bytes} B`
     } if (bytes < 1024 * 1024) {
@@ -30,16 +42,16 @@ export default function Panel() {
     }
     return `${(bytes / (1024 * 1024)).toFixed(2)} MB`
   }
-  const renderTime = (v: number) => {
+  function renderTime(v: number) {
     return v < 1000 ? `${(v).toFixed(0)} ms` : `${(v / 1000).toFixed(2)} s`
   }
-  const renderType = (v: string = '', r: any) => {
+  function renderType(v: string = '', r: any) {
     if (v.includes('image')) {
       return r.response.content.mimeType.split('/').pop()
     }
     return v
   }
-  const renderStatus = (v: number) => {
+  function renderStatus(v: number) {
     const handles = {
       // eslint-disable-next-line react/no-unstable-nested-components
       0: () => {
@@ -49,14 +61,16 @@ export default function Panel() {
     // @ts-ignore
     return handles[v] ? handles[v]() : v
   }
-  const columns = [
-    { title: 'Name', dataIndex: ['request', 'url'], render: renderName },
-    { title: 'Method', dataIndex: ['request', 'method'], width: 70 },
-    { title: 'Status', dataIndex: ['response', 'status'], width: 80, render: renderStatus },
-    { title: 'Type', dataIndex: '_resourceType', render: renderType, width: 80 },
-    { title: 'Size', dataIndex: ['response', '_transferSize'], render: renderSize, width: 80 },
-    { title: 'Time', dataIndex: 'time', render: renderTime, width: 80 },
-  ]
+  function handleNameClick(r: any) {
+    return {
+      onClick() {
+        console.log(r)
+        setDetail(r)
+        setFilteredColumns([filteredColumns[0]] as ColumnsType)
+      },
+    }
+  }
+
   const handleResourceTypeChange = (v: IResourceType) => {
     setCurrResourceType(v)
   }
@@ -108,7 +122,9 @@ export default function Panel() {
 
     // const test = Array(100).fill('').map(() => {
     //   return {
-    //     name: '123',
+    //     request: {
+    //       url: '123131',
+    //     },
     //   }
     // })
     // setReqs(test)
@@ -121,7 +137,7 @@ export default function Panel() {
         <Checkbox onChange={handlePreserveLogChange}>Preserve log</Checkbox>
       </div>
       <div className={styles.filter}>
-        <Input onChange={handleKeywordChange} size="small" className={styles.keywordSer} placeholder="Filter" />
+        <Input onChange={handleKeywordChange} className={styles.keywordSer} placeholder="Filter" />
         <Segmented
           onChange={(v) => handleResourceTypeChange(v as IResourceType)}
           size="small"
@@ -131,14 +147,19 @@ export default function Panel() {
       </div>
       <div className={styles.table}>
         <Table
+          style={{
+            width: detail ? '130px' : '100%',
+            height: '100%',
+            overflow: 'auto',
+          }}
           locale={{ emptyText: "There's nothing here" }}
           sticky
-          size="small"
           bordered
           dataSource={filteredReqs}
-          columns={columns}
+          columns={filteredColumns}
           pagination={false}
         />
+        {detail && <ReqDetail onClose={() => setDetail(null)} detail={detail} /> }
       </div>
     </div>
   )

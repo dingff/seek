@@ -53,7 +53,7 @@ export default function Payload({ detail }: IProps) {
         ) : (isPost ? (
           <div className={styles.treeView}>
             {/* @ts-ignore */}
-            <Inspector data={JSON.parse(postData)} />
+            <Inspector expandLevel={1} data={JSON.parse(postData)} />
           </div>
         ) : (
           <div className={styles.list}>

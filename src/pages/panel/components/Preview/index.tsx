@@ -47,7 +47,7 @@ export default function Preview({ detail }: IProps) {
         return (
           <div style={{ padding: '6px 8px' }}>
             {/* @ts-ignore */}
-            <Inspector data={JSON.parse(v)} />
+            <Inspector expandLevel={2} data={JSON.parse(v)} />
           </div>
         )
       },

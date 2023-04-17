@@ -21,7 +21,13 @@
         }
       }
       .ant-tabs-content-holder {
-        overflow: auto;
+        height: 100%;
+        .ant-tabs-content {
+          height: 100%;
+          .ant-tabs-tabpane {
+            height: 100%;
+          }
+        }
       }
     }
   }

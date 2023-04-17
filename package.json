@@ -22,6 +22,7 @@
     "ahooks": "^3.7.5",
     "antd": "5.4.2",
     "classnames": "^2.3.2",
+    "highlight.js": "^11.7.0",
     "react-inspector": "^6.0.1",
     "umi": "4.0.65"
   },

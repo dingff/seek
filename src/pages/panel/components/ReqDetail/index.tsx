@@ -5,6 +5,7 @@ import type { TabsProps } from 'antd'
 import Payload from '../Payload'
 import Headers from '../Headers'
 import styles from './index.less'
+import Preview from '../Preview'
 
 type IProps = {
   detail: any;
@@ -27,7 +28,7 @@ export default function ReqDetail({ detail, onClose }: IProps) {
       label: 'Preview',
       key: '3',
       children: (
-        <div>Preview</div>
+        <Preview detail={detail} />
       ),
     },
   ]

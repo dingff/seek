@@ -26,4 +26,9 @@ export default defineConfig({
       .end()
     return memo
   },
+  theme: {
+    '@bg-gray': 'rgb(241, 243, 244)',
+    '@text-gray': 'rgb(96, 99, 103)',
+    '@border-color': 'rgb(203, 205, 209)',
+  }
 })

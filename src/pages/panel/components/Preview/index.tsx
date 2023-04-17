@@ -1,26 +1,48 @@
-import hljs from 'highlight.js/lib/core'
-import 'highlight.js/styles/vs.css'
-import javascript from 'highlight.js/lib/languages/javascript'
-import css from 'highlight.js/lib/languages/css'
-import xml from 'highlight.js/lib/languages/xml'
 import { Inspector } from 'react-inspector'
 import React, { useEffect, useRef, useState } from 'react'
+import CodeMirror from '@uiw/react-codemirror'
+import { javascript } from '@codemirror/lang-javascript'
+import { css } from '@codemirror/lang-css'
+import { html } from '@codemirror/lang-html'
+// eslint-disable-next-line camelcase
+import { css_beautify, html_beautify, js_beautify } from 'js-beautify'
 import { RESOURCE_TYPE_MAP } from '@/common/constants'
 import styles from './index.less'
 
 type IProps = {
   detail: any;
 }
-type IType = 'json' | 'img' | 'other';
-hljs.registerLanguage('javascript', javascript)
-hljs.registerLanguage('css', css)
-hljs.registerLanguage('xml', xml)
+type IType = 'js' | 'css' | 'doc' | 'json' | 'img' | 'other';
 export default function Preview({ detail }: IProps) {
   const typeRef = useRef<IType>('json')
   const [content, setContent] = useState<React.ReactNode>(null)
   const renderContent = (v: string) => {
     // eslint-disable-next-line no-unused-vars
     const handles: { [p in IType]: () => React.ReactNode } = {
+      js() {
+        return (
+          <CodeMirror
+            value={js_beautify(v)}
+            extensions={[javascript()]}
+          />
+        )
+      },
+      css() {
+        return (
+          <CodeMirror
+            value={css_beautify(v)}
+            extensions={[css()]}
+          />
+        )
+      },
+      doc() {
+        return (
+          <CodeMirror
+            value={html_beautify(v)}
+            extensions={[html()]}
+          />
+        )
+      },
       json() {
         return (
           <div style={{ padding: '6px 8px' }}>
@@ -37,20 +59,26 @@ export default function Preview({ detail }: IProps) {
         )
       },
       other() {
-        return <pre key={detail.request.url}><code>{v}</code></pre>
+        return (
+          <CodeMirror
+            value={v}
+          />
+        )
       },
     }
     setContent(handles[typeRef.current]())
   }
   useEffect(() => {
-    if (typeRef.current === 'other') {
-      setTimeout(() => {
-        hljs.highlightAll()
-      }, 50)
-    }
-  }, [content])
-  useEffect(() => {
     switch (true) {
+      case RESOURCE_TYPE_MAP.JS.includes(detail._resourceType):
+        typeRef.current = 'js'
+        break
+      case RESOURCE_TYPE_MAP.CSS.includes(detail._resourceType):
+        typeRef.current = 'css'
+        break
+      case RESOURCE_TYPE_MAP.Doc.includes(detail._resourceType):
+        typeRef.current = 'doc'
+        break
       case RESOURCE_TYPE_MAP['Fetch/XHR'].includes(detail._resourceType):
         typeRef.current = 'json'
         break

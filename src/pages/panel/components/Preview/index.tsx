@@ -6,13 +6,12 @@ import { css } from '@codemirror/lang-css'
 import { html } from '@codemirror/lang-html'
 // eslint-disable-next-line camelcase
 import { css_beautify, html_beautify, js_beautify } from 'js-beautify'
-import { RESOURCE_TYPE_MAP } from '@/common/constants'
 import styles from './index.less'
 
 type IProps = {
   detail: any;
 }
-type IType = 'js' | 'css' | 'doc' | 'json' | 'img' | 'other';
+type IType = 'js' | 'css' | 'doc' | 'json' | 'img' | 'unknown' | 'other';
 export default function Preview({ detail }: IProps) {
   const typeRef = useRef<IType>('json')
   const [content, setContent] = useState<React.ReactNode>(null)
@@ -61,6 +60,13 @@ export default function Preview({ detail }: IProps) {
           </div>
         )
       },
+      unknown() {
+        return (
+          <div className={styles.unknown}>
+            Failed to load response data: No data found for resource with given identifier
+          </div>
+        )
+      },
       other() {
         return (
           <CodeMirror
@@ -72,21 +78,25 @@ export default function Preview({ detail }: IProps) {
     setContent(handles[typeRef.current]())
   }
   useEffect(() => {
+    const { mimeType } = detail.response.content
     switch (true) {
-      case RESOURCE_TYPE_MAP.JS.includes(detail._resourceType):
+      case mimeType.includes('javascript'):
         typeRef.current = 'js'
         break
-      case RESOURCE_TYPE_MAP.CSS.includes(detail._resourceType):
+      case mimeType.includes('css'):
         typeRef.current = 'css'
         break
-      case RESOURCE_TYPE_MAP.Doc.includes(detail._resourceType):
+      case mimeType.includes('html'):
         typeRef.current = 'doc'
         break
-      case RESOURCE_TYPE_MAP['Fetch/XHR'].includes(detail._resourceType):
+      case mimeType.includes('json'):
         typeRef.current = 'json'
         break
-      case RESOURCE_TYPE_MAP.Img.includes(detail._resourceType):
+      case mimeType.includes('image'):
         typeRef.current = 'img'
+        break
+      case mimeType.includes('unknown'):
+        typeRef.current = 'unknown'
         break
       default:
         typeRef.current = 'other'

@@ -22,7 +22,7 @@ export default function Panel() {
   const [filteredColumns, setFilteredColumns] = useState(columns)
   const [reqs, setReqs] = useState<any[]>([])
   const [filteredReqs, setFilteredReqs] = useState<any[]>([])
-  const [currResourceType, setCurrResourceType] = useState<IResourceType>('All')
+  const [currResourceType, setCurrResourceType] = useState<IResourceType>('Fetch/XHR')
   const shouldPreserveLogRef = useRef(false)
   const [keyword, setKeyword] = useState('')
   const [detail, setDetail] = useState(null)
@@ -70,10 +70,6 @@ export default function Panel() {
         setFilteredColumns([filteredColumns[0]] as ColumnsType)
       },
     }
-  }
-
-  const handleResourceTypeChange = (v: IResourceType) => {
-    setCurrResourceType(v)
   }
   const handlePreserveLogChange = (e: any) => {
     shouldPreserveLogRef.current = e.target.checked
@@ -140,7 +136,8 @@ export default function Panel() {
       <div className={styles.filter}>
         <Input onChange={handleKeywordChange} className={styles.keywordSer} placeholder="Filter" />
         <Segmented
-          onChange={(v) => handleResourceTypeChange(v as IResourceType)}
+          value={currResourceType}
+          onChange={(v) => setCurrResourceType(v as IResourceType)}
           size="small"
           className={styles.types}
           options={RESOURCE_TYPES}

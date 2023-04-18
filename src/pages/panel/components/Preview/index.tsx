@@ -13,6 +13,7 @@ type IProps = {
 }
 type IType = 'js' | 'css' | 'doc' | 'json' | 'img' | 'unknown' | 'other';
 export default function Preview({ detail }: IProps) {
+  const containerRef = useRef(null)
   const typeRef = useRef<IType>('json')
   const [content, setContent] = useState<React.ReactNode>(null)
   const renderContent = (v: string) => {
@@ -105,9 +106,13 @@ export default function Preview({ detail }: IProps) {
     detail.getContent((v: string) => {
       renderContent(v)
     })
+    return () => {
+      // @ts-ignore
+      containerRef.current.scrollTop = 0
+    }
   }, [detail])
   return (
-    <div className={styles.preview}>
+    <div ref={containerRef} className={styles.preview}>
       {content}
     </div>
   )

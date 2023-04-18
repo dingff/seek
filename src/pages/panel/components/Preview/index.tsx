@@ -1,4 +1,4 @@
-import { Inspector, ObjectRootLabel } from 'react-inspector'
+import { ObjectRootLabel } from 'react-inspector'
 import React, { useEffect, useRef, useState } from 'react'
 import CodeMirror from '@uiw/react-codemirror'
 import { javascript } from '@codemirror/lang-javascript'
@@ -6,6 +6,7 @@ import { css } from '@codemirror/lang-css'
 import { html } from '@codemirror/lang-html'
 // eslint-disable-next-line camelcase
 import { css_beautify, html_beautify, js_beautify } from 'js-beautify'
+import JsonInspector from '@/components/JsonInspector'
 import styles from './index.less'
 
 type IProps = {
@@ -49,8 +50,7 @@ export default function Preview({ detail }: IProps) {
         }
         return (
           <div style={{ padding: '6px 8px' }}>
-            {/* @ts-ignore */}
-            <Inspector nodeRenderer={nodeRenderer} expandLevel={2} data={JSON.parse(v)} />
+            <JsonInspector nodeRenderer={nodeRenderer} expandLevel={2} data={v} />
           </div>
         )
       },

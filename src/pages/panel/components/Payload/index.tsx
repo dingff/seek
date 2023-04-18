@@ -1,6 +1,6 @@
-import { Inspector } from 'react-inspector'
 import { CaretRightOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
+import JsonInspector from '@/components/JsonInspector'
 import styles from './index.less'
 
 type IProps = {
@@ -51,10 +51,7 @@ export default function Payload({ detail }: IProps) {
         {sourceVisible ? (
           isPost ? postData : queryStringSource
         ) : (isPost ? (
-          <div className={styles.treeView}>
-            {/* @ts-ignore */}
-            <Inspector expandLevel={1} data={JSON.parse(postData)} />
-          </div>
+          <JsonInspector expandLevel={1} data={postData} />
         ) : (
           <div className={styles.list}>
             {queryString.map((item) => (

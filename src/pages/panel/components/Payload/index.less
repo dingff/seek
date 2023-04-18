@@ -1,18 +1,35 @@
 .payload {
+  :global {
+    .ant-collapse {
+      .ant-collapse-item {
+        .ant-collapse-header {
+          align-items: center;
+          font-size: 13px;
+          font-weight: bold;
+          padding: 4px 6px;
+          .ant-collapse-expand-icon {
+            padding-right: 1px;
+          }
+        }
+        .ant-collapse-content {
+          padding-bottom: 10px;
+          .ant-collapse-content-box {
+            padding: 0;
+          }
+        }
+      }
+    }
+  }
   .header {
     display: flex;
     align-items: center;
-    padding: 4px 6px;
-    .icon {
-      width: 10px;
-      height: 10px;
-      margin-right: 1px;
-    }
     .title {
       font-size: 13px;
       font-weight: bold;
     }
     .btns {
+      font-size: 12px;
+      font-weight: normal;
       span {
         cursor: pointer;
         margin-left: 22px;
@@ -22,6 +39,7 @@
   .content {
     padding-left: 27px;
     word-break: break-all;
+    white-space: pre-wrap;
     .list {
       .listItem {
         word-break: break-all;

@@ -14,11 +14,11 @@ declare const chrome: any
 export default function Panel() {
   const columns: ColumnsType<any> = [
     { title: 'Name', dataIndex: ['request', 'url'], render: renderName, onCell: handleNameClick },
-    { title: 'Method', dataIndex: ['request', 'method'], width: 70 },
-    { title: 'Status', dataIndex: ['response', 'status'], width: 80, render: renderStatus },
-    { title: 'Type', dataIndex: '_resourceType', render: renderType, width: 80 },
-    { title: 'Size', dataIndex: ['response', '_transferSize'], render: renderSize, width: 80 },
-    { title: 'Time', dataIndex: 'time', render: renderTime, width: 80 },
+    { title: 'Method', dataIndex: ['request', 'method'], width: 60, ellipsis: true },
+    { title: 'Status', dataIndex: ['response', 'status'], width: 60, render: renderStatus },
+    { title: 'Type', dataIndex: '_resourceType', render: renderType, width: 60, ellipsis: true },
+    { title: 'Size', dataIndex: ['response', '_transferSize'], render: renderSize, width: 80, ellipsis: true },
+    { title: 'Time', dataIndex: 'time', render: renderTime, width: 80, ellipsis: true },
   ]
   const [filteredColumns, setFilteredColumns] = useState(columns)
   const [reqs, setReqs] = useState<any[]>([])
@@ -149,7 +149,6 @@ export default function Panel() {
           style={{
             width: detail ? '130px' : '100%',
             height: '100%',
-            maxWidth: 600,
             minWidth: 100,
           }}
           handles={detail ? ['right'] : []}

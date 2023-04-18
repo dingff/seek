@@ -4,7 +4,7 @@ import './index.less'
 
 type IHorizontalHandle = 'right' | 'left';
 type IVerticalHandle = 'top' | 'bottom';
-type IHandle = IHorizontalHandle | IVerticalHandle
+type IHandle = IHorizontalHandle | IVerticalHandle;
 type IProps = {
   children: React.ReactNode;
   style?: React.CSSProperties;
@@ -48,7 +48,6 @@ export default function Resizable({
       const initialHeight = containerRef.current.offsetHeight
       document.body.style.userSelect = 'none'
       document.onmousemove = (moveEvent) => {
-        console.log('mm')
         if (!containerRef.current) return
         const disY = moveEvent.clientY - initialY
         containerRef.current.style.height = `${initialHeight + disY}px`

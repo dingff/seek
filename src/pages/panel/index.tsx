@@ -7,6 +7,7 @@ import { KNOWN_TYPES, RESOURCE_TYPES, RESOURCE_TYPE_MAP } from '@/common/constan
 import Ellipsis from '@/components/Ellipsis'
 import styles from './index.less'
 import ReqDetail from './components/ReqDetail'
+import Resizable from '@/components/Resizable'
 
 declare const chrome: any
 
@@ -144,20 +145,30 @@ export default function Panel() {
         />
       </div>
       <div className={styles.table}>
-        <Table
+        <Resizable
           style={{
             width: detail ? '130px' : '100%',
             height: '100%',
-            overflow: 'auto',
+            maxWidth: 600,
+            minWidth: 100,
           }}
-          rowClassName={(r, i) => (currRow === i ? styles.currRow : '')}
-          locale={{ emptyText: "There's nothing here" }}
-          sticky
-          bordered
-          dataSource={filteredReqs}
-          columns={filteredColumns}
-          pagination={false}
-        />
+          handles={detail ? ['right'] : []}
+        >
+          <Table
+            style={{
+              width: '100%',
+              height: '100%',
+              overflow: 'auto',
+            }}
+            rowClassName={(r, i) => (currRow === i ? styles.currRow : '')}
+            locale={{ emptyText: "There's nothing here" }}
+            sticky
+            bordered
+            dataSource={filteredReqs}
+            columns={filteredColumns}
+            pagination={false}
+          />
+        </Resizable>
         {detail && <ReqDetail onClose={handleDetailClose} detail={detail} /> }
       </div>
     </div>

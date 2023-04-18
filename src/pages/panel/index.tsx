@@ -147,7 +147,7 @@ export default function Panel() {
       <div className={styles.table}>
         <Resizable
           style={{
-            width: detail ? '130px' : '100%',
+            width: detail ? '160px' : '100%',
             height: '100%',
             minWidth: 100,
           }}

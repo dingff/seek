@@ -13,7 +13,7 @@ type IProps = {
 }
 type IType = 'js' | 'css' | 'doc' | 'json' | 'img' | 'unknown' | 'other';
 export default function Preview({ detail }: IProps) {
-  const containerRef = useRef(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const typeRef = useRef<IType>('json')
   const [content, setContent] = useState<React.ReactNode>(null)
   const renderContent = (v: string) => {
@@ -107,8 +107,9 @@ export default function Preview({ detail }: IProps) {
       renderContent(v)
     })
     return () => {
-      // @ts-ignore
-      containerRef.current.scrollTop = 0
+      if (containerRef.current) {
+        containerRef.current.scrollTop = 0
+      }
     }
   }, [detail])
   return (

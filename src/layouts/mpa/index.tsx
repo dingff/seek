@@ -11,6 +11,7 @@ export default function Layout(props: any) {
           colorText: 'rgba(0, 0, 0, 0.85)',
           fontSize: 12,
           controlInteractiveSize: 14,
+          fontFamily: 'sans-serif',
         },
       }}
     >

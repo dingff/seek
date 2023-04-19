@@ -12,7 +12,7 @@ type IProps = {
 export default function Ellipsis({ children, style, title, className }: IProps) {
   return (
     // @ts-ignore
-    <div title={title || children} className={classNames('ellipsisCom', className)} style={style}>
+    <div title={title || children} className={classNames('ellipsis-com', className)} style={style}>
       {children}
     </div>
   )

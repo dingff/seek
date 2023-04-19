@@ -54,14 +54,9 @@ export default function Panel() {
     return v
   }
   function renderStatus(v: number) {
-    const handles = {
-      // eslint-disable-next-line react/no-unstable-nested-components
-      0: () => {
-        return <Ellipsis style={{ color: '#f5222d' }}>(blocked:other)</Ellipsis>
-      },
-    }
-    // @ts-ignore
-    return handles[v] ? handles[v]() : v
+    return (
+      <Ellipsis style={v !== 200 ? { color: '#f5222d' } : {}}>{v}</Ellipsis>
+    )
   }
   function handleNameClick(r: any, rowIndex: number = -1) {
     return {

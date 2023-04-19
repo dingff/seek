@@ -3,14 +3,15 @@ import classNames from 'classnames'
 import './index.less'
 
 type IProps = {
-  children: string;
+  children: string | number;
   style?: React.CSSProperties;
-  title?: string;
+  title?: string | number;
   className?: string;
 }
 
 export default function Ellipsis({ children, style, title, className }: IProps) {
   return (
+    // @ts-ignore
     <div title={title || children} className={classNames('ellipsisCom', className)} style={style}>
       {children}
     </div>

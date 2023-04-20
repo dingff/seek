@@ -62,9 +62,13 @@ export default function Preview({ detail }: IProps) {
         )
       },
       unknown() {
+        let errMsg = 'Failed to load response data: No data found for resource with given identifier'
+        if (detail._resourceType === 'preflight') {
+          errMsg = 'Failed to load response data: No content available for preflight request'
+        }
         return (
           <div className={styles.unknown}>
-            Failed to load response data: No data found for resource with given identifier
+            {errMsg}
           </div>
         )
       },

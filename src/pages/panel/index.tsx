@@ -8,7 +8,7 @@ import Ellipsis from '@/components/Ellipsis'
 import styles from './index.less'
 import ReqDetail from './components/ReqDetail'
 import Resizable from '@/components/Resizable'
-import { CssIcon, DefaultIcon, DocIcon, ImgIcon, JsIcon } from '@/components/FileIcon'
+import { CssIcon, DefaultIcon, DocIcon, FontIcon, ImgIcon, JsIcon } from '@/components/FileIcon'
 
 declare const chrome: any
 
@@ -47,6 +47,9 @@ export default function Panel() {
         break
       case RESOURCE_TYPE_MAP.Img.includes(type):
         fileIcon = <ImgIcon src={r.request.url} />
+        break
+      case RESOURCE_TYPE_MAP.Font.includes(type):
+        fileIcon = <FontIcon />
         break
       default:
         fileIcon = <DefaultIcon />

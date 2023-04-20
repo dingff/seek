@@ -1,4 +1,4 @@
-import { DocIcon, CssIcon, JsIcon } from '@/components/FileIcon'
+import { DocIcon, CssIcon, JsIcon, FontIcon } from '@/components/FileIcon'
 import styles from './index.less'
 
 export default function Test() {
@@ -7,6 +7,7 @@ export default function Test() {
       <JsIcon />
       <CssIcon />
       <DocIcon />
+      <FontIcon />
     </div>
   )
 }

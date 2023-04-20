@@ -1,0 +1,27 @@
+@import "../index.less";
+.font-icon {
+  @color: rgb(87, 190, 222);
+  .box();
+  position: relative;
+  border-color: @color;
+  &::before {
+    position: absolute;
+    content: "";
+    top: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 1px;
+    background: @color;
+  }
+  &::after {
+    position: absolute;
+    content: "";
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 4.5px;
+    background: @color;
+  }
+}

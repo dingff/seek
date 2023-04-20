@@ -1,0 +1,26 @@
+@import "../index.less";
+.js-icon {
+  @color: rgb(231, 180, 62);
+  .box();
+  position: relative;
+  border-color: @color;
+  .angle {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    width: 2px;
+    height: 2px;
+    border-left: 1px solid @color;
+    border-bottom: 1px solid @color;
+  }
+  &::before {
+    .angle();
+    left: 2px;
+    transform: rotate(45deg);
+  }
+  &::after {
+    .angle();
+    right: 2px;
+    transform: rotate(-135deg);
+  }
+}

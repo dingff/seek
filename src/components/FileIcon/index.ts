@@ -1,0 +1,5 @@
+export { default as JsIcon } from './Js'
+export { default as CssIcon } from './Css'
+export { default as DocIcon } from './Doc'
+export { default as DefaultIcon } from './Default'
+export { default as ImgIcon } from './Img'

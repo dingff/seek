@@ -8,6 +8,7 @@ import Ellipsis from '@/components/Ellipsis'
 import styles from './index.less'
 import ReqDetail from './components/ReqDetail'
 import Resizable from '@/components/Resizable'
+import { CssIcon, DefaultIcon, DocIcon, ImgIcon, JsIcon } from '@/components/FileIcon'
 
 declare const chrome: any
 
@@ -29,11 +30,33 @@ export default function Panel() {
   const [detail, setDetail] = useState(null)
   const [currRow, setCurrRow] = useState(-1)
 
-  function renderName(v: string = '') {
+  function renderName(v: string = '', r: any) {
     const tokens = v.split('/')
     const shortName = tokens.pop() || tokens.pop()
+    let fileIcon = null
+    const type = r._resourceType
+    switch (true) {
+      case RESOURCE_TYPE_MAP.JS.includes(type):
+        fileIcon = <JsIcon />
+        break
+      case RESOURCE_TYPE_MAP.CSS.includes(type):
+        fileIcon = <CssIcon />
+        break
+      case RESOURCE_TYPE_MAP.Doc.includes(type):
+        fileIcon = <DocIcon />
+        break
+      case RESOURCE_TYPE_MAP.Img.includes(type):
+        fileIcon = <ImgIcon src={r.request.url} />
+        break
+      default:
+        fileIcon = <DefaultIcon />
+        break
+    }
     return (
-      <Ellipsis title={v}>{shortName as string}</Ellipsis>
+      <div className={styles.nameCell}>
+        <div className={styles.icon}>{fileIcon}</div>
+        <Ellipsis style={{ flex: 1 }} title={v}>{shortName as string}</Ellipsis>
+      </div>
     )
   }
   function renderSize(bytes: number) {

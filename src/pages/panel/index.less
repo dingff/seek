@@ -82,7 +82,7 @@
             background: @border-color;
           }
           .ant-table-cell {
-            padding: 4px 8px !important;
+            padding: 4px 4px !important;
             background: @bg-gray;
           }
         }
@@ -90,7 +90,7 @@
           cursor: default;
           .ant-table-row {
             .ant-table-cell {
-              padding: 2px 8px !important;
+              padding: 2px 4px !important;
             }
             &:nth-child(2n - 1) {
               background: rgb(245, 245, 245);
@@ -106,6 +106,13 @@
           background: #1677ff !important;
           border-inline-end: 0 !important;
         }
+      }
+    }
+    .nameCell {
+      display: flex;
+      align-items: center;
+      .icon {
+        padding: 0 6px;
       }
     }
   }

@@ -1,0 +1,18 @@
+@import "../index.less";
+.doc-icon {
+  @color: rgb(62, 124, 246);
+  .box();
+  position: relative;
+  border-color: @color;
+  &::before {
+    position: absolute;
+    content: "";
+    bottom: 1.5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: @color;
+    box-shadow: 0 -2px 0px @color, 0 -4px 0px @color;
+  }
+}

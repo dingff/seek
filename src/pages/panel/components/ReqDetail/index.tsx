@@ -34,6 +34,7 @@ export default function ReqDetail({ detail, onClose }: IProps) {
   ]
   const [filteredTabItems, setFilteredTabItems] = useState(tabItems)
   useEffect(() => {
+    console.log('ReqDetail', detail)
     const hasPayload = detail.request.queryString?.[0] || detail.request.postData?.text
     if (!hasPayload) {
       tabItems.splice(1, 1)

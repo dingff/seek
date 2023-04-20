@@ -31,7 +31,7 @@ export default function Payload({ detail }: IProps) {
           source: postData.text,
         })
       }
-      if (postData.mimeType.includes('form-data')) {
+      if (postData.mimeType.includes('form')) {
         setPostDataForm({
           ...postDataForm,
           parsed: postData.params,

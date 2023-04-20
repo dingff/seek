@@ -10,7 +10,7 @@ const { Panel } = Collapse
 
 export default function Headers({ detail }: IProps) {
   const getValueByName = (dict: any[]) => (name: string) => {
-    return dict.filter((item) => item.name === name)[0]?.value || ''
+    return dict.filter((item) => item.name === name)[0]?.value || 'strict-origin-when-cross-origin'
   }
   return (
     <div className={styles.headers}>

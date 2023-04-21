@@ -1,5 +1,6 @@
 import { CaretRightOutlined } from '@ant-design/icons'
 import { Collapse } from 'antd'
+import classNames from 'classnames'
 import styles from './index.less'
 
 type IProps = {
@@ -11,6 +12,27 @@ const { Panel } = Collapse
 export default function Headers({ detail }: IProps) {
   const getValueByName = (dict: any[]) => (name: string) => {
     return dict.filter((item) => item.name === name)[0]?.value || 'strict-origin-when-cross-origin'
+  }
+  const renderStatus = (v: number) => {
+    const status = v.toString()
+    let className = ''
+    switch (true) {
+      case status.startsWith('2'):
+        className = styles.success
+        break
+      case status.startsWith('3'):
+        className = styles.warning
+        break
+      case status.startsWith('4') || status.startsWith('5') || status == '0':
+        className = styles.error
+        break
+      default:
+        className = styles.default
+        break
+    }
+    return (
+      <div className={classNames(styles.dot, className)}></div>
+    )
   }
   return (
     <div className={styles.headers}>
@@ -30,8 +52,9 @@ export default function Headers({ detail }: IProps) {
               <b>Request Method:</b>
               {detail.request.method}
             </div>
-            <div className={styles.listItem}>
+            <div className={classNames(styles.listItem, styles.status)}>
               <b>Status Code:</b>
+              {renderStatus(detail.response.status)}
               {detail.response.status}
             </div>
             {detail.serverIPAddress && (

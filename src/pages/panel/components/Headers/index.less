@@ -34,5 +34,27 @@
         padding-right: 6px;
       }
     }
+    .status {
+      display: flex;
+      align-items: center;
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 4px;
+        &.success {
+          background: #52c41a;
+        }
+        &.warning {
+          background: #fa8c16;
+        }
+        &.error {
+          background: #f5222d;
+        }
+        &.default {
+          display: none;
+        }
+      }
+    }
   }
 }

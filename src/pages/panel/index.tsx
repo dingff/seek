@@ -80,8 +80,20 @@ export default function Panel() {
     return v
   }
   function renderStatus(v: number) {
+    const status = v.toString()
+    let color = ''
+    switch (true) {
+      case status.startsWith('3'):
+        color = '#fa8c16'
+        break
+      case status.startsWith('4') || status.startsWith('5') || status == '0':
+        color = '#f5222d'
+        break
+      default:
+        break
+    }
     return (
-      <Ellipsis style={v !== 200 ? { color: '#f5222d' } : {}}>{v}</Ellipsis>
+      <Ellipsis style={{ color }}>{status}</Ellipsis>
     )
   }
   function handleNameClick(r: any, rowIndex: number = -1) {

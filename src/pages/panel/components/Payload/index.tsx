@@ -24,17 +24,16 @@ export default function Payload({ detail }: IProps) {
   useEffect(() => {
     const { postData } = detail.request
     if (postData?.mimeType) {
-      if (postData.mimeType.includes('json')) {
-        setPostDataJson({
-          ...postDataJson,
-          parsed: postData.text,
-          source: postData.text,
-        })
-      }
       if (postData.mimeType.includes('form')) {
         setPostDataForm({
           ...postDataForm,
           parsed: postData.params,
+          source: postData.text,
+        })
+      } else {
+        setPostDataJson({
+          ...postDataJson,
+          parsed: postData.text,
           source: postData.text,
         })
       }

@@ -29,6 +29,7 @@ export default function Panel() {
   const [keyword, setKeyword] = useState('')
   const [detail, setDetail] = useState(null)
   const [currRow, setCurrRow] = useState(-1)
+  const maxTimeRef = useRef(0)
 
   function renderName(v: string = '', r: any) {
     const tokens = v.split('/')
@@ -71,7 +72,17 @@ export default function Panel() {
     return `${(bytes / (1024 * 1024)).toFixed(2)} MB`
   }
   function renderTime(v: number) {
-    return v < 1000 ? `${(v).toFixed(0)} ms` : `${(v / 1000).toFixed(2)} s`
+    const parsed = v < 1000 ? `${(v).toFixed(0)} ms` : `${(v / 1000).toFixed(2)} s`
+    return (
+      <div
+        style={{
+          width: `${(v / maxTimeRef.current) * 100}%`,
+          background: '#dfecff',
+        }}
+      >
+        {parsed}
+      </div>
+    )
   }
   function renderType(v: string = '', r: any) {
     if (v.includes('image')) {
@@ -151,6 +162,7 @@ export default function Panel() {
       setReqs((prev) => {
         return [...prev, data]
       })
+      maxTimeRef.current = Math.max(data.time, maxTimeRef.current)
     })
     chrome.devtools.network.onNavigated.addListener((data: string) => {
       console.log('onNavigated', data)

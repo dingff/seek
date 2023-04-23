@@ -18,8 +18,22 @@ export default function Panel() {
     { title: 'Method', dataIndex: ['request', 'method'], width: 60, ellipsis: true },
     { title: 'Status', dataIndex: ['response', 'status'], width: 60, render: renderStatus },
     { title: 'Type', dataIndex: '_resourceType', render: renderType, width: 60, ellipsis: true },
-    { title: 'Size', dataIndex: ['response', '_transferSize'], render: renderSize, width: 80, ellipsis: true },
-    { title: 'Time', dataIndex: 'time', render: renderTime, width: 80, ellipsis: true },
+    {
+      title: 'Size',
+      dataIndex: ['response', '_transferSize'],
+      render: renderSize,
+      width: 70,
+      ellipsis: true,
+      sorter: (a, b) => a.response._transferSize - b.response._transferSize,
+    },
+    {
+      title: 'Time',
+      dataIndex: 'time',
+      render: renderTime,
+      width: 70,
+      ellipsis: true,
+      sorter: (a, b) => a.time - b.time,
+    },
   ]
   const [filteredColumns, setFilteredColumns] = useState(columns)
   const [reqs, setReqs] = useState<any[]>([])

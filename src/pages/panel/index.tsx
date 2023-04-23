@@ -222,6 +222,7 @@ export default function Panel() {
               height: '100%',
               overflow: 'auto',
             }}
+            showSorterTooltip={false}
             rowClassName={(r, i) => (currRow === i ? styles.currRow : '')}
             locale={{ emptyText: "There's nothing here" }}
             sticky

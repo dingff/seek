@@ -141,6 +141,10 @@ export default function Panel() {
     setFilteredColumns(columns)
     setCurrRow(-1)
   }
+  const clearReqs = () => {
+    setReqs([])
+    maxTimeRef.current = 0
+  }
   useEffect(() => {
     const types = RESOURCE_TYPE_MAP[currResourceType]
     let next = []
@@ -181,7 +185,7 @@ export default function Panel() {
     chrome.devtools.network.onNavigated.addListener((data: string) => {
       console.log('onNavigated', data)
       if (!shouldPreserveLogRef.current) {
-        setReqs([])
+        clearReqs()
       }
       handleDetailClose()
     })
@@ -189,7 +193,7 @@ export default function Panel() {
   return (
     <div className={styles.container}>
       <div className={styles.topBar}>
-        <StopOutlined className={styles.icon} onClick={() => setReqs([])} />
+        <StopOutlined className={styles.icon} onClick={clearReqs} />
         <span className={styles.splitLine}></span>
         <Checkbox onChange={handlePreserveLogChange}>Preserve log</Checkbox>
       </div>

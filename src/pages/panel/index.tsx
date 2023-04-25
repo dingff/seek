@@ -147,6 +147,12 @@ export default function Panel() {
     handleDetailClose()
   }
   useEffect(() => {
+    const el = document.querySelector('.ant-table-wrapper')
+    if (el && !detail) {
+      el.scrollTop = el.scrollHeight - el.clientHeight
+    }
+  }, [filteredReqs])
+  useEffect(() => {
     const types = RESOURCE_TYPE_MAP[currResourceType]
     let next = []
     switch (currResourceType) {
@@ -218,7 +224,6 @@ export default function Panel() {
         >
           <Table
             style={{
-              width: '100%',
               height: '100%',
               overflow: 'auto',
             }}

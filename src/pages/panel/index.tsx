@@ -144,6 +144,7 @@ export default function Panel() {
   const clearReqs = () => {
     setReqs([])
     maxTimeRef.current = 0
+    handleDetailClose()
   }
   useEffect(() => {
     const types = RESOURCE_TYPE_MAP[currResourceType]
@@ -187,7 +188,6 @@ export default function Panel() {
       if (!shouldPreserveLogRef.current) {
         clearReqs()
       }
-      handleDetailClose()
     })
   }, [])
   return (

@@ -44,6 +44,7 @@ export default function Panel() {
   const [detail, setDetail] = useState(null)
   const [currRow, setCurrRow] = useState(-1)
   const maxTimeRef = useRef(0)
+  const tableRef = useRef<HTMLDivElement>(null)
 
   function renderName(v: string = '', r: any) {
     const tokens = v.split('/')
@@ -147,9 +148,8 @@ export default function Panel() {
     handleDetailClose()
   }
   useEffect(() => {
-    const el = document.querySelector('.ant-table-wrapper')
-    if (el && !detail) {
-      el.scrollTop = el.scrollHeight - el.clientHeight
+    if (tableRef.current && !detail) {
+      tableRef.current.scrollTop = tableRef.current.scrollHeight - tableRef.current.clientHeight
     }
   }, [filteredReqs])
   useEffect(() => {
@@ -227,6 +227,7 @@ export default function Panel() {
               height: '100%',
               overflow: 'auto',
             }}
+            ref={tableRef}
             showSorterTooltip={false}
             rowClassName={(r, i) => (currRow === i ? styles.currRow : '')}
             locale={{ emptyText: "There's nothing here" }}

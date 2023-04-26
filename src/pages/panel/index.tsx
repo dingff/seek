@@ -74,7 +74,7 @@ export default function Panel() {
     return (
       <div className={styles.nameCell}>
         <div className={styles.icon}>{fileIcon}</div>
-        <Ellipsis style={{ flex: 1 }} title={v}>{shortName as string}</Ellipsis>
+        <Ellipsis style={{ flex: 1 }} title={v}>{v.startsWith('data:image') ? v : shortName as string}</Ellipsis>
       </div>
     )
   }

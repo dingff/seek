@@ -23,7 +23,6 @@ export default function Panel() {
       dataIndex: ['response', '_transferSize'],
       render: renderSize,
       width: 70,
-      ellipsis: true,
       sorter: (a, b) => a.response._transferSize - b.response._transferSize,
     },
     {
@@ -78,13 +77,31 @@ export default function Panel() {
       </div>
     )
   }
-  function renderSize(bytes: number) {
-    if (bytes < 1024) {
-      return `${bytes} B`
-    } if (bytes < 1024 * 1024) {
-      return `${(bytes / 1024).toFixed(2)} kB`
+  const parseSize = (bytes: number) => {
+    let parsedSize = ''
+    const KB = 1024
+    const MB = KB * KB
+    switch (true) {
+      case bytes < KB:
+        parsedSize = `${bytes} B`
+        break
+      case bytes < MB:
+        parsedSize = `${(bytes / KB).toFixed(1)} kB`
+        break
+      default:
+        parsedSize = `${(bytes / MB).toFixed(1)} MB`
+        break
     }
-    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`
+    return parsedSize
+  }
+  function renderSize(bytes: number, r: any) {
+    return (
+      r._fromCache ? (
+        <Ellipsis className={styles.textGray}>{`(${r._fromCache} cache)`}</Ellipsis>
+      ) : (
+        <Ellipsis>{parseSize(bytes)}</Ellipsis>
+      )
+    )
   }
   function renderTime(v: number) {
     const parsed = v < 1000 ? `${(v).toFixed(0)} ms` : `${(v / 1000).toFixed(2)} s`

@@ -1,0 +1,55 @@
+@radius: 6px;
+@item-height: 26px;
+.menu-item-mixin {
+  height: @item-height;
+  line-height: @item-height;
+  border-radius: @radius;
+  margin: 0;
+  width: 100%;
+  transition: none !important;
+  padding: 0 6px;
+  .ant-menu-title-content {
+    margin-inline-start: 6px;
+    transition: none;
+  }
+  &:active {
+    background-color: unset !important;
+  }
+}
+.menu-mixin {
+  .ant-menu {
+    border-radius: @radius;
+    padding: 6px !important;
+    min-width: 160px;
+    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+      0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+    .ant-menu-submenu {
+      .ant-menu-submenu-title {
+        .menu-item-mixin();
+      }
+      &.ant-menu-submenu-selected {
+        .ant-menu-submenu-title {
+          background-color: #fff;
+          color: inherit;
+        }
+      }
+    }
+    .ant-menu-item {
+      .menu-item-mixin();
+      &.ant-menu-item-selected {
+        background-color: #fff;
+        color: inherit;
+      }
+    }
+    .ant-menu-item-divider {
+      margin: 4px 0;
+    }
+  }
+}
+.context-menu-com {
+  .menu-mixin();
+}
+.ant-menu-submenu-popup {
+  border-radius: @radius;
+  .menu-mixin();
+}

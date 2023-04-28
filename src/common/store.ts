@@ -16,14 +16,16 @@ const store = {
   },
   remove(key: string) {
     return new Promise<void>((resolve) => {
-      chrome.storage.sync.remove(key)
-      resolve()
+      chrome.storage.sync.remove(key).then(() => {
+        resolve()
+      })
     })
   },
   clear() {
     return new Promise<void>((resolve) => {
-      chrome.storage.sync.clear()
-      resolve()
+      chrome.storage.sync.clear().then(() => {
+        resolve()
+      })
     })
   },
 }

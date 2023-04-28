@@ -1,8 +1,8 @@
 import { Menu } from 'antd'
 import type { MenuProps } from 'antd'
 import { CheckOutlined } from '@ant-design/icons'
+import React, { useLayoutEffect, useState } from 'react'
 import './index.less'
-import { useLayoutEffect, useState } from 'react'
 
 type MenuItem = Required<MenuProps>['items'][number]
 export type IContextMenuItem = {
@@ -13,15 +13,19 @@ export type IContextMenuItem = {
 }
 type IProps = {
   items: IContextMenuItem[];
-  selectedKeys: string[];
+  selectedKeys?: string[];
+  style?: React.CSSProperties;
+  selectable?: boolean;
   // eslint-disable-next-line no-unused-vars
   onClick?: (key: string) => void;
   // eslint-disable-next-line no-unused-vars
-  onSelect: (keys: string[]) => void;
+  onSelect?: (keys: string[]) => void;
 }
 export default function ContextMenu({
   items,
-  selectedKeys,
+  selectedKeys = [],
+  style,
+  selectable = false,
   onClick,
   onSelect,
 }: IProps) {
@@ -30,7 +34,12 @@ export default function ContextMenu({
       return { ...item, key: item.key || item.label }
     })
   })
+  const [openKeys, setOpenKeys] = useState<string[]>([])
+  const handleOpenChange = (keys: string[]) => {
+    setOpenKeys(keys)
+  }
   const handleClick = (e: any) => {
+    setOpenKeys([])
     onClick?.(e.key)
   }
   const handleSelect = (e: any) => {
@@ -52,6 +61,7 @@ export default function ContextMenu({
     return doNext(root)
   }
   useLayoutEffect(() => {
+    if (!selectable) return
     const next = traverseTree(menuItems, (item: any) => {
       return {
         ...item,
@@ -63,10 +73,13 @@ export default function ContextMenu({
   return (
     <div className="context-menu-com">
       <Menu
+        style={style}
+        selectable={selectable}
         selectedKeys={selectedKeys}
+        openKeys={openKeys}
+        onOpenChange={handleOpenChange}
         multiple
         mode="vertical"
-        triggerSubMenuAction="click"
         items={menuItems}
         onClick={handleClick}
         onSelect={handleSelect}

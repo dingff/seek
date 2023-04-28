@@ -1,5 +1,3 @@
-declare const chrome: any
-
 export const debounce = (fn: any, delay = 200) => {
   let timer: any
   return (...args: any[]) => {
@@ -8,12 +6,4 @@ export const debounce = (fn: any, delay = 200) => {
       fn(...args)
     }, delay)
   }
-}
-// 获取当前存储的数据
-export const getStorage = (key: string) => {
-  return new Promise((resolve) => {
-    chrome.storage.sync.get([key]).then((res: any) => {
-      resolve(res[key])
-    })
-  })
 }

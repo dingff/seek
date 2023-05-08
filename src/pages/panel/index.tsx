@@ -16,13 +16,13 @@ export default function Panel() {
   const columns: ColumnsType<any> = [
     { title: 'Name', dataIndex: ['request', 'url'], render: renderName, onCell: handleNameClick },
     { title: 'Method', dataIndex: ['request', 'method'], width: 60, ellipsis: true },
-    { title: 'Status', dataIndex: ['response', 'status'], width: 60, render: renderStatus },
-    { title: 'Type', dataIndex: '_resourceType', render: renderType, width: 60, ellipsis: true },
+    { title: 'Status', dataIndex: ['response', 'status'], width: 50, render: renderStatus },
+    { title: 'Type', dataIndex: '_resourceType', render: renderType, width: 50, ellipsis: true },
     {
       title: 'Size',
       dataIndex: ['response', '_transferSize'],
       render: renderSize,
-      width: 70,
+      width: 60,
       sorter: (a, b) => a.response._transferSize - b.response._transferSize,
     },
     {

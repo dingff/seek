@@ -8,7 +8,7 @@ export default function Layout(props: any) {
       theme={{
         token: {
           borderRadius: 2,
-          colorText: 'rgba(0, 0, 0, 0.85)',
+          colorText: '#222',
           fontSize: 12,
           controlInteractiveSize: 14,
           fontFamily: 'sans-serif',

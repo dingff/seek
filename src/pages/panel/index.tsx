@@ -119,10 +119,19 @@ export default function Panel() {
     )
   }
   function renderType(v: string = '', r: any) {
-    if (v.includes('image')) {
-      return r.response.content.mimeType.split('/').pop()
+    let type = ''
+    switch (v) {
+      case 'image':
+        type = r.response.content.mimeType.split('/').pop()
+        break
+      case 'other':
+        type = r.response.content.mimeType.replace('image/', '')
+        break
+      default:
+        type = v
+        break
     }
-    return v
+    return type
   }
   function renderStatus(v: number) {
     const status = v.toString()

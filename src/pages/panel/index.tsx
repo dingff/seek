@@ -9,6 +9,7 @@ import styles from './index.less'
 import ReqDetail from './components/ReqDetail'
 import Resizable from '@/components/Resizable'
 import { CssIcon, DefaultIcon, DocIcon, FontIcon, ImgIcon, JsIcon } from '@/components/FileIcon'
+import { debounce } from '@/common/utils'
 
 declare const chrome: any
 
@@ -44,6 +45,7 @@ export default function Panel() {
   const [currRow, setCurrRow] = useState(-1)
   const maxTimeRef = useRef(0)
   const tableRef = useRef<HTMLDivElement>(null)
+  const shouldScrollRef = useRef(true)
 
   function renderName(v: string = '', r: any) {
     const tokens = v.split('/')
@@ -163,9 +165,10 @@ export default function Panel() {
     setReqs([])
     maxTimeRef.current = 0
     handleDetailClose()
+    shouldScrollRef.current = true
   }
   useEffect(() => {
-    if (tableRef.current && !detail) {
+    if (tableRef.current && shouldScrollRef.current) {
       tableRef.current.scrollTop = tableRef.current.scrollHeight - tableRef.current.clientHeight
     }
   }, [filteredReqs])
@@ -212,6 +215,9 @@ export default function Panel() {
         clearReqs()
       }
     })
+    tableRef.current!.onscroll = debounce(() => {
+      shouldScrollRef.current = tableRef.current!.scrollHeight - tableRef.current!.scrollTop == tableRef.current!.clientHeight
+    }, 300)
   }, [])
   return (
     <div className={styles.container}>

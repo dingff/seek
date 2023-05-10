@@ -10,6 +10,7 @@ import ReqDetail from './components/ReqDetail'
 import Resizable from '@/components/Resizable'
 import { CssIcon, DefaultIcon, DocIcon, FontIcon, ImgIcon, JsIcon } from '@/components/FileIcon'
 import { debounce } from '@/common/utils'
+import HeaderContextMenu from './components/HeaderContextMenu'
 
 declare const chrome: any
 
@@ -272,6 +273,7 @@ export default function Panel() {
         </Resizable>
         {detail && <ReqDetail onClose={handleDetailClose} detail={detail} /> }
       </div>
+      <HeaderContextMenu />
     </div>
   )
 }

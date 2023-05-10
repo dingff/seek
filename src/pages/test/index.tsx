@@ -1,13 +1,9 @@
 import { useState } from 'react'
 import styles from './index.less'
 import ContextMenu, { IContextMenuItem } from '@/components/ContextMenu'
-import useContextMenu from '@/hooks/useContextMenu'
 
 export default function Test() {
   const [selectedKeys, setSelectedKeys] = useState<string[]>([])
-  const { style } = useContextMenu({
-    target: document.body,
-  })
   const items: IContextMenuItem[] = [
     {
       label: 'test',
@@ -31,8 +27,8 @@ export default function Test() {
   return (
     <div className={styles.container}>
       <ContextMenu
+        target={document.body}
         selectable
-        style={style}
         selectedKeys={selectedKeys}
         items={items}
         onSelect={(keys) => setSelectedKeys(keys)}

@@ -1,7 +1,7 @@
 import { Menu } from 'antd'
 import type { MenuProps } from 'antd'
 import { CheckOutlined } from '@ant-design/icons'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import './index.less'
 
 type MenuItem = Required<MenuProps>['items'][number]
@@ -12,6 +12,7 @@ export type IContextMenuItem = {
   type?: 'group' | 'divider';
 }
 type IProps = {
+  target: HTMLElement | null;
   items: IContextMenuItem[];
   selectedKeys?: string[];
   style?: React.CSSProperties;
@@ -22,6 +23,7 @@ type IProps = {
   onSelect?: (keys: string[]) => void;
 }
 export default function ContextMenu({
+  target,
   items,
   selectedKeys = [],
   style,
@@ -35,6 +37,8 @@ export default function ContextMenu({
     })
   })
   const [openKeys, setOpenKeys] = useState<string[]>([])
+  const [style_, setStyle_] = useState<React.CSSProperties>({ display: 'none' })
+
   const handleOpenChange = (keys: string[]) => {
     setOpenKeys(keys)
   }
@@ -70,10 +74,32 @@ export default function ContextMenu({
     })
     setMenuItems(next)
   }, [selectedKeys])
+  useEffect(() => {
+    if (!target) return
+    target.oncontextmenu = (e: MouseEvent) => {
+      e.preventDefault()
+      setStyle_({
+        position: 'fixed',
+        zIndex: 999,
+        top: e.clientY,
+        left: e.clientX,
+        display: 'block',
+      })
+    }
+    const hideFn = () => {
+      setStyle_({
+        display: 'none',
+      })
+    }
+    document.body.addEventListener('click', hideFn)
+    return () => {
+      document.body.removeEventListener('click', hideFn)
+    }
+  }, [target])
   return (
     <div className="context-menu-com">
       <Menu
-        style={style}
+        style={{ ...style, ...style_ }}
         selectable={selectable}
         selectedKeys={selectedKeys}
         openKeys={openKeys}

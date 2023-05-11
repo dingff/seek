@@ -12,7 +12,7 @@ import styles from './index.less'
 type IProps = {
   detail: any;
 }
-type IType = 'js' | 'css' | 'doc' | 'json' | 'img' | 'unknown' | 'other';
+type IType = 'js' | 'css' | 'doc' | 'json' | 'img' | 'unknown' | 'media' | 'other';
 export default function Preview({ detail }: IProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const typeRef = useRef<IType>('json')
@@ -80,6 +80,17 @@ export default function Preview({ detail }: IProps) {
           </div>
         )
       },
+      media() {
+        let errMsg = 'Preview not available'
+        if (detail.response._error) {
+          errMsg = 'Failed to load response data: No data found for resource with given identifier'
+        }
+        return (
+          <div className={styles.unknown}>
+            {errMsg}
+          </div>
+        )
+      },
       other() {
         return (
           <CodeMirror
@@ -110,6 +121,9 @@ export default function Preview({ detail }: IProps) {
         break
       case mimeType.includes('unknown'):
         typeRef.current = 'unknown'
+        break
+      case detail._resourceType === 'media':
+        typeRef.current = 'media'
         break
       default:
         typeRef.current = 'other'

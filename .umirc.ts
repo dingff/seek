@@ -30,5 +30,6 @@ export default defineConfig({
     '@bg-gray': 'rgb(241, 243, 244)',
     '@text-gray': 'rgb(96, 99, 103)',
     '@border-color': 'rgb(203, 205, 209)',
+    '@primary': '#1677ff',
   }
 })

@@ -2,3 +2,8 @@ export type IResourceType = 'All'| 'Fetch/XHR'| 'JS'| 'CSS'| 'Img'| 'Media'| 'Fo
 export type IResourceTypeMap = {
   [p in IResourceType]: string[];
 }
+export type IColumn = {
+  title: string;
+  visible: boolean;
+  dataIndex?: string | string[];
+}

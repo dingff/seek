@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Checkbox, Input, Segmented, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { StopOutlined } from '@ant-design/icons'
-import { IResourceType } from '@/types'
+import { IColumn, IResourceType } from '@/types'
 import { KNOWN_TYPES, RESOURCE_TYPES, RESOURCE_TYPE_MAP } from '@/common/constants'
 import Ellipsis from '@/components/Ellipsis'
 import styles from './index.less'
@@ -156,7 +156,6 @@ export default function Panel() {
       onClick() {
         setCurrRow(rowIndex)
         setDetail(r)
-        setFilteredColumns([filteredColumns[0]] as ColumnsType)
       },
     }
   }
@@ -168,7 +167,6 @@ export default function Panel() {
   }
   const handleDetailClose = () => {
     setDetail(null)
-    setFilteredColumns(columns)
     setCurrRow(-1)
   }
   const clearReqs = () => {
@@ -176,6 +174,14 @@ export default function Panel() {
     maxTimeRef.current = 0
     handleDetailClose()
     shouldScrollRef.current = true
+  }
+  const onColumnsChange = (list: IColumn[]) => {
+    const listMap: any = {}
+    list.forEach((item: IColumn) => {
+      if (item.visible) listMap[item.title] = item
+    })
+    const next = columns.filter((item) => listMap[item.title as string])
+    setFilteredColumns(next)
   }
   useEffect(() => {
     if (tableRef.current && shouldScrollRef.current) {
@@ -267,13 +273,13 @@ export default function Panel() {
             sticky
             bordered
             dataSource={filteredReqs}
-            columns={filteredColumns}
+            columns={detail ? [filteredColumns[0]] : filteredColumns}
             pagination={false}
           />
         </Resizable>
         {detail && <ReqDetail onClose={handleDetailClose} detail={detail} /> }
       </div>
-      <HeaderContextMenu />
+      <HeaderContextMenu onColumnsChange={onColumnsChange} />
     </div>
   )
 }

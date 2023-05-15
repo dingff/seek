@@ -1,4 +1,4 @@
-import { IResourceType, IResourceTypeMap } from '@/types'
+import { IColumn, IResourceType, IResourceTypeMap } from '@/types'
 
 export const RESOURCE_TYPES: IResourceType[] = ['All', 'Fetch/XHR', 'JS', 'CSS', 'Img', 'Media', 'Font', 'Doc', 'WS', 'Wasm', 'Manifest', 'Other']
 export const KNOWN_TYPES = {
@@ -29,3 +29,12 @@ export const RESOURCE_TYPE_MAP: IResourceTypeMap = {
   Manifest: [KNOWN_TYPES.manifest],
   Other: [''],
 }
+export const STORED_COLUMNS_KEY = 'COLUMNS'
+export const DEFAULT_COLUMNS: IColumn[] = [
+  { title: 'Name', visible: true },
+  { title: 'Method', visible: true },
+  { title: 'Status', visible: true },
+  { title: 'Type', visible: true },
+  { title: 'Size', visible: true },
+  { title: 'Time', visible: true },
+]

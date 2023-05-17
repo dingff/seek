@@ -31,10 +31,10 @@ export const RESOURCE_TYPE_MAP: IResourceTypeMap = {
 }
 export const STORED_COLUMNS_KEY = 'COLUMNS'
 export const DEFAULT_COLUMNS: IColumn[] = [
-  { title: 'Name', visible: true },
-  { title: 'Method', visible: true },
-  { title: 'Status', visible: true },
-  { title: 'Type', visible: true },
-  { title: 'Size', visible: true },
-  { title: 'Time', visible: true },
+  { title: 'Name' },
+  { title: 'Method' },
+  { title: 'Status' },
+  { title: 'Type' },
+  { title: 'Size' },
+  { title: 'Time' },
 ]

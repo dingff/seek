@@ -4,6 +4,8 @@ export type IResourceTypeMap = {
 }
 export type IColumn = {
   title: string;
-  visible: boolean;
-  dataIndex?: string | string[];
+  visible?: boolean;
+  field?: string;
+  method?: 'get' | 'post';
+  isCustom?: boolean;
 }

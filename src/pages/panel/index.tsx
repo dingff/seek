@@ -176,11 +176,28 @@ export default function Panel() {
     shouldScrollRef.current = true
   }
   const onColumnsChange = (list: IColumn[]) => {
-    const listMap: any = {}
+    const defaultTitles = ['Name', 'Method', 'Status', 'Type', 'Size', 'Time']
+    const visibleListMap: any = {}
+    const newColumns = columns
     list.forEach((item: IColumn) => {
-      if (item.visible) listMap[item.title] = item
+      if (item.visible !== false) visibleListMap[item.title] = item
+      if (!defaultTitles.includes(item.title)) {
+        newColumns.splice(1, 0, {
+          title: item.title,
+          dataIndex: 'request',
+          render: (req: any) => {
+            if (item.method === 'get') {
+              return req.queryString.filter((query: any) => query.name === item.field)[0]?.value || ''
+            }
+            if (req.postData) {
+              const obj = JSON.parse(req.postData.text)
+              return obj[item.field as string]
+            }
+          },
+        })
+      }
     })
-    const next = columns.filter((item) => listMap[item.title as string])
+    const next = newColumns.filter((item) => visibleListMap[item.title as string])
     setFilteredColumns(next)
   }
   useEffect(() => {

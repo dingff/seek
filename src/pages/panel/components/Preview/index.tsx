@@ -93,9 +93,7 @@ export default function Preview({ detail }: IProps) {
       },
       other() {
         return (
-          <CodeMirror
-            value={v}
-          />
+          <CodeMirror value={v ?? ''} />
         )
       },
     }

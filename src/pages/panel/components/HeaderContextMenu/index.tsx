@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, Col, Form, Input, Modal, Popconfirm, Row, Select, Switch, Table } from 'antd'
+import { Button, Col, Form, Input, InputNumber, Modal, Popconfirm, Row, Select, Switch, Table } from 'antd'
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, PlusOutlined } from '@ant-design/icons'
 import { useUpdateEffect } from 'ahooks'
 import ContextMenu from '@/components/ContextMenu'
@@ -101,7 +101,7 @@ export default function HeaderContextMenu({
     form.validateFields().then(() => {
       const formVal = form.getFieldsValue(true)
       if (editIndex !== -1) {
-        dataSource[editIndex] = formVal
+        dataSource[editIndex] = { ...dataSource[editIndex], ...formVal }
         setDataSource([...dataSource])
       } else {
         setDataSource([...dataSource, { ...formVal, isCustom: true }])
@@ -141,15 +141,19 @@ export default function HeaderContextMenu({
         title={editIndex !== -1 ? 'Edit' : 'Add'}
         open={addVisible}
         onOk={handleSubmit}
+        destroyOnClose
         onCancel={() => {
           setAddVisible(false)
-          form.resetFields()
         }}
       >
         <Form
+          preserve={false}
           form={form}
           style={{ marginTop: 20 }}
           layout="vertical"
+          initialValues={{
+            width: 60,
+          }}
         >
           <Form.Item
             label="Title"
@@ -174,6 +178,13 @@ export default function HeaderContextMenu({
             rules={[{ required: true, message: 'Please input field!' }]}
           >
             <Input placeholder="Input field" />
+          </Form.Item>
+          <Form.Item
+            label="Width"
+            name="width"
+            rules={[{ required: true, message: 'Please input width!' }]}
+          >
+            <InputNumber style={{ width: '100%' }} placeholder="Input width" min={50} max={100} step={10} />
           </Form.Item>
         </Form>
       </Modal>

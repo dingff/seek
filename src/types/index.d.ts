@@ -8,4 +8,5 @@ export type IColumn = {
   field?: string;
   method?: 'get' | 'post';
   isCustom?: boolean;
+  width?: number
 }

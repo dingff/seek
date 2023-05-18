@@ -185,6 +185,8 @@ export default function Panel() {
         newColumns.splice(1, 0, {
           title: item.title,
           dataIndex: 'request',
+          width: item.width,
+          ellipsis: true,
           render: (req: any) => {
             if (item.method === 'get') {
               return req.queryString.filter((query: any) => query.name === item.field)[0]?.value || ''

@@ -252,7 +252,7 @@ export default function Panel() {
     })
     tableRef.current!.onscroll = debounce(() => {
       shouldScrollRef.current = tableRef.current!.scrollHeight - tableRef.current!.scrollTop == tableRef.current!.clientHeight
-    }, 300)
+    }, 500)
   }, [])
   return (
     <div className={styles.container}>

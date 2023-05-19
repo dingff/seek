@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react'
-import { Inspector } from 'react-inspector'
+import { Inspector, ObjectRootLabel } from 'react-inspector'
 import './index.less'
 
 type IProps = {
   data: string;
   expandLevel?: number;
-  nodeRenderer?: any;
 }
 
 export default function JsonInspector({
   data,
-  expandLevel = 1,
-  nodeRenderer,
+  expandLevel = 2,
 }: IProps) {
   const [parsedData, setParsedData] = useState(null)
+  const nodeRenderer = ({ name, data: v }: any) => {
+    return <ObjectRootLabel name={name} data={v} />
+  }
   useEffect(() => {
     let next = null
     try {

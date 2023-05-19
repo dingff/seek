@@ -113,7 +113,7 @@ export default function Payload({ detail }: IProps) {
             key="2"
           >
             <div className={styles.content}>
-              {postDataJson.current === 'parsed' && <JsonInspector expandLevel={1} data={postDataJson.parsed} />}
+              {postDataJson.current === 'parsed' && <JsonInspector data={postDataJson.parsed} />}
               {postDataJson.current === 'source' && postDataJson.source}
             </div>
           </Panel>

@@ -1,4 +1,3 @@
-import { ObjectRootLabel } from 'react-inspector'
 import React, { useEffect, useRef, useState } from 'react'
 import CodeMirror from '@uiw/react-codemirror'
 import { javascript } from '@codemirror/lang-javascript'
@@ -45,12 +44,9 @@ export default function Preview({ detail }: IProps) {
         )
       },
       json() {
-        const nodeRenderer = ({ name, data }: any) => {
-          return <ObjectRootLabel name={name} data={data} />
-        }
         return (
           <div style={{ padding: '6px 8px' }}>
-            <JsonInspector nodeRenderer={nodeRenderer} expandLevel={2} data={v} />
+            <JsonInspector data={v} />
           </div>
         )
       },

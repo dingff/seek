@@ -1,0 +1,15 @@
+diff --git a/node_modules/react-inspector/dist/index.mjs b/node_modules/react-inspector/dist/index.mjs
+index 89d1c38..52425b2 100644
+--- a/node_modules/react-inspector/dist/index.mjs
++++ b/node_modules/react-inspector/dist/index.mjs
+@@ -219,7 +219,9 @@ var createTheme = (theme3) => ({
+       fontStyle: "italic"
+     },
+     preview: {
+-      fontStyle: "italic"
++      fontStyle: "italic",
++      filter: 'grayscale(1) brightness(0.5)',
++      userSelect: 'none'
+     },
+     arrayMaxProperties: theme3.OBJECT_PREVIEW_ARRAY_MAX_PROPERTIES,
+     objectMaxProperties: theme3.OBJECT_PREVIEW_OBJECT_MAX_PROPERTIES

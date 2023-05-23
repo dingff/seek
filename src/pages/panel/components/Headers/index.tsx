@@ -14,7 +14,7 @@ const { Panel } = Collapse
 export default function Headers({ detail }: IProps) {
   const containerRef = useRef(null)
   const size = useSize(containerRef)
-  const [listItemClassNames, setListItemClassNames] = useState(styles.listItem)
+  const [listItemClassNames, setListItemClassNames] = useState(classNames(styles.listItem, styles.hide))
   const getValueByName = (dict: any[]) => (name: string) => {
     return dict.filter((item) => item.name === name)[0]?.value || 'strict-origin-when-cross-origin'
   }

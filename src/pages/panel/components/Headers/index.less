@@ -28,15 +28,21 @@
     padding-right: 12px;
     .listItem {
       display: flex;
-      word-break: break-word;
+      word-break: break-all;
       b {
         padding-right: 6px;
         width: 190px;
         flex-shrink: 0;
+        word-break: break-word;
+      }
+      &.wrap {
+        flex-wrap: wrap;
+        b {
+          width: 100%;
+        }
       }
     }
     .status {
-      display: flex;
       align-items: center;
       .dot {
         width: 10px;

@@ -1,5 +1,7 @@
 import { CaretRightOutlined } from '@ant-design/icons'
 import { Collapse } from 'antd'
+import { useEffect, useRef, useState } from 'react'
+import { useSize } from 'ahooks'
 import classNames from 'classnames'
 import styles from './index.less'
 
@@ -10,6 +12,9 @@ type IProps = {
 const { Panel } = Collapse
 
 export default function Headers({ detail }: IProps) {
+  const containerRef = useRef(null)
+  const size = useSize(containerRef)
+  const [listItemClassNames, setListItemClassNames] = useState(styles.listItem)
   const getValueByName = (dict: any[]) => (name: string) => {
     return dict.filter((item) => item.name === name)[0]?.value || 'strict-origin-when-cross-origin'
   }
@@ -34,8 +39,14 @@ export default function Headers({ detail }: IProps) {
       <div className={classNames(styles.dot, className)}></div>
     )
   }
+  useEffect(() => {
+    if (!size) return
+    setListItemClassNames(classNames(styles.listItem, {
+      [styles.wrap]: size.width < 330,
+    }))
+  }, [size])
   return (
-    <div className={styles.headers}>
+    <div className={styles.headers} ref={containerRef}>
       <Collapse
         bordered={false}
         defaultActiveKey={['1', '2', '3']}
@@ -44,26 +55,26 @@ export default function Headers({ detail }: IProps) {
       >
         <Panel header="General" key="1">
           <div className={styles.list}>
-            <div className={styles.listItem}>
+            <div className={listItemClassNames}>
               <b>Request URL:</b>
               {detail.request.url}
             </div>
-            <div className={styles.listItem}>
+            <div className={listItemClassNames}>
               <b>Request Method:</b>
               {detail.request.method}
             </div>
-            <div className={classNames(styles.listItem, styles.status)}>
+            <div className={classNames(listItemClassNames, styles.status)}>
               <b>Status Code:</b>
               {renderStatus(detail.response.status)}
               {detail.response.status}
             </div>
             {detail.serverIPAddress && (
-              <div className={styles.listItem}>
+              <div className={listItemClassNames}>
                 <b>Remote Address:</b>
                 {detail.serverIPAddress}
               </div>
             )}
-            <div className={styles.listItem}>
+            <div className={listItemClassNames}>
               <b>Referrer Policy:</b>
               {getValueByName(detail.response.headers)('referrer-policy')}
             </div>
@@ -73,7 +84,7 @@ export default function Headers({ detail }: IProps) {
           <Panel header="Response Headers" key="2">
             <div className={styles.list}>
               {detail.response.headers.map((item: any) => (
-                <div className={styles.listItem}>
+                <div className={listItemClassNames}>
                   <b>{item.name}:</b>
                   {item.value}
                 </div>
@@ -84,7 +95,7 @@ export default function Headers({ detail }: IProps) {
         <Panel header="Request Headers" key="3">
           <div className={styles.list}>
             {detail.request.headers.map((item: any) => (
-              <div className={styles.listItem}>
+              <div className={listItemClassNames}>
                 <b>{item.name}:</b>
                 {item.value}
               </div>

@@ -226,9 +226,10 @@ export default function Panel() {
         break
     }
     if (keyword) {
+      const k = keyword.toLowerCase()
       next = next.filter((item) => {
         const postParams = item.request.postData?.text || ''
-        return item.request.url.includes(keyword) || postParams.includes(keyword)
+        return item.request.url.toLowerCase().includes(k) || postParams.toLowerCase().includes(k)
       })
     }
     setFilteredReqs(next)

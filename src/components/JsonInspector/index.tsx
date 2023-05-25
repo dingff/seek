@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Inspector, ObjectRootLabel } from 'react-inspector'
+import { javascript } from '@codemirror/lang-javascript'
+// eslint-disable-next-line camelcase
+import { js_beautify } from 'js-beautify'
+import CodeMirror from '@uiw/react-codemirror'
 import './index.less'
 
 type IProps = {
@@ -28,10 +32,15 @@ export default function JsonInspector({
   return (
     <div className="json-inspector-com">
       {parsedData ? (
-        // @ts-ignore
-        <Inspector nodeRenderer={nodeRenderer} expandLevel={expandLevel} data={parsedData} />
+        <div style={{ padding: '6px 8px' }}>
+          {/* @ts-ignore */}
+          <Inspector nodeRenderer={nodeRenderer} expandLevel={expandLevel} data={parsedData} />
+        </div>
       ) : (
-        <div>{data}</div>
+        <CodeMirror
+          value={js_beautify(data)}
+          extensions={[javascript()]}
+        />
       )}
     </div>
   )

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Inspector, ObjectRootLabel } from 'react-inspector'
 import { javascript } from '@codemirror/lang-javascript'
 // eslint-disable-next-line camelcase
@@ -9,11 +9,13 @@ import './index.less'
 type IProps = {
   data: string;
   expandLevel?: number;
+  style?: React.CSSProperties;
 }
 
 export default function JsonInspector({
   data,
   expandLevel = 2,
+  style,
 }: IProps) {
   const [parsedData, setParsedData] = useState(null)
   const nodeRenderer = ({ name, data: v }: any) => {
@@ -32,7 +34,7 @@ export default function JsonInspector({
   return (
     <div className="json-inspector-com">
       {parsedData ? (
-        <div style={{ padding: '6px 8px' }}>
+        <div style={style}>
           {/* @ts-ignore */}
           <Inspector nodeRenderer={nodeRenderer} expandLevel={expandLevel} data={parsedData} />
         </div>

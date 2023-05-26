@@ -45,7 +45,7 @@ export default function Preview({ detail }: IProps) {
       },
       json() {
         return (
-          <JsonInspector data={v} />
+          <JsonInspector data={v} style={{ padding: '6px 8px' }} />
         )
       },
       img() {

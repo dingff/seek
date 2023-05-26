@@ -45,6 +45,7 @@ export default function ReqDetail({ detail, onClose }: IProps) {
     <div className={styles.reqDetail}>
       <Tabs
         tabBarGutter={20}
+        destroyInactiveTabPane
         tabBarExtraContent={{
           left: <CloseOutlined onClick={onClose} className={styles.icon} />,
         }}

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Checkbox, Input, Segmented, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
+import classNames from 'classnames'
 import { StopOutlined } from '@ant-design/icons'
 import { IColumn, IResourceType } from '@/types'
 import { KNOWN_TYPES, RESOURCE_TYPES, RESOURCE_TYPE_MAP } from '@/common/constants'
@@ -47,7 +48,8 @@ export default function Panel() {
   const maxTimeRef = useRef(0)
   const tableRef = useRef<HTMLDivElement>(null)
   const shouldScrollRef = useRef(true)
-
+  const warningRowsRef = useRef<string[]>([])
+  const errorRowsRef = useRef<string[]>([])
   function renderName(v: string = '', r: any) {
     const tokens = v.split('/')
     const shortName = tokens.pop() || tokens.pop()
@@ -110,9 +112,9 @@ export default function Panel() {
     const parsed = v < 1000 ? `${(v).toFixed(0)} ms` : `${(v / 1000).toFixed(2)} s`
     return (
       <div
+        className={styles.timeCell}
         style={{
           width: `${(v / maxTimeRef.current) * 100}%`,
-          background: '#dfecff',
         }}
       >
         {parsed}
@@ -134,21 +136,20 @@ export default function Panel() {
     }
     return type
   }
-  function renderStatus(v: number) {
+  function renderStatus(v: number, r: any) {
     const status = v.toString()
-    let color = ''
     switch (true) {
       case status.startsWith('3'):
-        color = '#fa8c16'
+        warningRowsRef.current.push(r.uuid)
         break
       case status.startsWith('4') || status.startsWith('5') || status == '0':
-        color = '#f5222d'
+        errorRowsRef.current.push(r.uuid)
         break
       default:
         break
     }
     return (
-      <Ellipsis style={{ color }}>{status}</Ellipsis>
+      <Ellipsis>{status}</Ellipsis>
     )
   }
   function handleNameClick(r: any, rowIndex: number = -1) {
@@ -202,6 +203,13 @@ export default function Panel() {
     const next = newColumns.filter((item) => visibleListMap[item.title as string])
     setFilteredColumns(next)
   }
+  const handleRowClassName = (r: any, i: number) => {
+    return classNames({
+      [styles.currRow]: currRow === i,
+      [styles.errorRow]: errorRowsRef.current.includes(r.uuid),
+      [styles.warningRow]: warningRowsRef.current.includes(r.uuid),
+    })
+  }
   useEffect(() => {
     if (tableRef.current && shouldScrollRef.current) {
       tableRef.current.scrollTop = tableRef.current.scrollHeight - tableRef.current.clientHeight
@@ -240,6 +248,7 @@ export default function Panel() {
   useEffect(() => {
     chrome.devtools.network.onRequestFinished.addListener((data: any) => {
       console.log('onRequestFinished', data.response.content.mimeType, data)
+      data.uuid = crypto.randomUUID()
       setReqs((prev) => {
         return [...prev, data]
       })
@@ -288,7 +297,7 @@ export default function Panel() {
             }}
             ref={tableRef}
             showSorterTooltip={false}
-            rowClassName={(r, i) => (currRow === i ? styles.currRow : '')}
+            rowClassName={handleRowClassName}
             locale={{ emptyText: "There's nothing here" }}
             sticky
             bordered

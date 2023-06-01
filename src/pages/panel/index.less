@@ -105,7 +105,7 @@
       :global {
         .ant-table-cell {
           color: #fff;
-          background: #1677ff !important;
+          background: @primary !important;
           border-inline-end: 0 !important;
         }
       }
@@ -124,6 +124,42 @@
       .icon {
         padding: 0 6px;
       }
+    }
+    .timeCell {
+      background: #bae0ff;
+    }
+    .coloredRow(@color, @bg-color) {
+      :global {
+        .ant-table-cell {
+          color: @color;
+          .default-icon {
+            border-color: @color;
+          }
+        }
+      }
+      .timeCell {
+        background: @bg-color;
+      }
+      &.currRow {
+        :global {
+          .ant-table-cell {
+            background: @bg-color !important;
+          }
+        }
+        .nameCell {
+          .icon {
+            > div:not(:global(.img-icon)) {
+              filter: none;
+            }
+          }
+        }
+      }
+    }
+    .errorRow {
+      .coloredRow(@red, #ffccc7);
+    }
+    .warningRow {
+      .coloredRow(@yellow, #ffe7ba);
     }
   }
   .textGray {

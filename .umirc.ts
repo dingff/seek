@@ -31,5 +31,8 @@ export default defineConfig({
     '@text-gray': 'rgb(96, 99, 103)',
     '@border-color': 'rgb(203, 205, 209)',
     '@primary': '#1677ff',
+    '@green': '#52c41a',
+    '@yellow': '#fa8c16',
+    '@red': '#f5222d',
   }
 })

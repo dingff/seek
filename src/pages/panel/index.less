@@ -132,8 +132,25 @@
       :global {
         .ant-table-cell {
           color: @color;
-          .default-icon {
+        }
+      }
+      .icon {
+        > div {
+          border-color: @color;
+          &::before,
+          &::after {
             border-color: @color;
+          }
+          &:not(:global(.js-icon)) {
+            &::before,
+            &::after {
+              background: @color;
+            }
+          }
+          &:global(.doc-icon) {
+            &::before {
+              box-shadow: 0 -2px 0px @color, 0 -4px 0px @color;
+            }
           }
         }
       }

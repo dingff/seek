@@ -136,20 +136,9 @@ export default function Panel() {
     }
     return type
   }
-  function renderStatus(v: number, r: any) {
-    const status = v.toString()
-    switch (true) {
-      case status.startsWith('3'):
-        warningRowsRef.current.push(r.uuid)
-        break
-      case status.startsWith('4') || status.startsWith('5') || status == '0':
-        errorRowsRef.current.push(r.uuid)
-        break
-      default:
-        break
-    }
+  function renderStatus(v: number) {
     return (
-      <Ellipsis>{status}</Ellipsis>
+      <Ellipsis>{v}</Ellipsis>
     )
   }
   function handleNameClick(r: any, rowIndex: number = -1) {
@@ -249,6 +238,17 @@ export default function Panel() {
     chrome.devtools.network.onRequestFinished.addListener((data: any) => {
       console.log('onRequestFinished', data.response.content.mimeType, data)
       data.uuid = crypto.randomUUID()
+      const status = data.response.status.toString()
+      switch (true) {
+        case status.startsWith('3'):
+          warningRowsRef.current.push(data.uuid)
+          break
+        case status.startsWith('4') || status.startsWith('5') || status == '0':
+          errorRowsRef.current.push(data.uuid)
+          break
+        default:
+          break
+      }
       setReqs((prev) => {
         return [...prev, data]
       })

@@ -44,7 +44,7 @@ export default function Panel() {
   const shouldPreserveLogRef = useRef(false)
   const [keyword, setKeyword] = useState('')
   const [detail, setDetail] = useState(null)
-  const [currRow, setCurrRow] = useState(-1)
+  const [currRow, setCurrRow] = useState('')
   const maxTimeRef = useRef(0)
   const tableRef = useRef<HTMLDivElement>(null)
   const shouldScrollRef = useRef(true)
@@ -141,10 +141,10 @@ export default function Panel() {
       <Ellipsis>{v}</Ellipsis>
     )
   }
-  function handleNameClick(r: any, rowIndex: number = -1) {
+  function handleNameClick(r: any) {
     return {
       onClick() {
-        setCurrRow(rowIndex)
+        setCurrRow(r.uuid)
         setDetail(r)
       },
     }
@@ -157,7 +157,7 @@ export default function Panel() {
   }
   const handleDetailClose = () => {
     setDetail(null)
-    setCurrRow(-1)
+    setCurrRow('')
   }
   const clearReqs = () => {
     setReqs([])
@@ -192,9 +192,9 @@ export default function Panel() {
     const next = newColumns.filter((item) => visibleListMap[item.title as string])
     setFilteredColumns(next)
   }
-  const handleRowClassName = (r: any, i: number) => {
+  const handleRowClassName = (r: any) => {
     return classNames({
-      [styles.currRow]: currRow === i,
+      [styles.currRow]: currRow === r.uuid,
       [styles.errorRow]: errorRowsRef.current.includes(r.uuid),
       [styles.warningRow]: warningRowsRef.current.includes(r.uuid),
     })
